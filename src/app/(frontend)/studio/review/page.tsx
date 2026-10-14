@@ -11,9 +11,13 @@ export default function Review() {
   const [model, setModel] = useState<Model | null>(null)
   const [active, setActive] = useState<Block | null>(null)
   const [instruction, setInstruction] = useState('Merge the two testimonial blocks into one with a layout option.')
+  const [source, setSource] = useState('fig')
   const [busy, setBusy] = useState(false)
 
   useEffect(() => {
+    const src = sessionStorage.getItem('studio-source') ?? 'fig'
+    setSource(src)
+    if (src === 'prompt') setInstruction('Add a blog section.')
     const saved = sessionStorage.getItem('studio-model')
     if (saved) setModel(JSON.parse(saved))
     else fetch('/api/studio/stored?name=model.json').then((r) => r.json()).then(setModel)
@@ -38,12 +42,19 @@ export default function Review() {
       <header className="studio__bar"><b>AI Content Studio</b><span className="studio__tag">Prototype · demo design</span></header>
       <main className="studio__body split">
         <div>
+          {source === 'prompt' ? (
+            <div style={{ background: 'var(--teal-tint)', borderRadius: 8, padding: 24, minHeight: 200 }}>
+              <p className="eyebrow">Your description</p>
+              <p style={{ margin: 0 }}>Generated from your description, with no design attached. Page sections are proposed from the words alone.</p>
+            </div>
+          ) : (
           <div style={{ position: 'relative' }}>
             <img src={`/api/studio/stored?name=thumbnails/${frame}.svg`} alt={`${frame} frame`} width={360} style={{ display: 'block', border: '1px solid var(--line)', borderRadius: 8 }} />
             {active && (
               <div style={{ position: 'absolute', left: `${active.region.x}%`, top: `${active.region.y}%`, width: `${active.region.w}%`, height: `${active.region.h}%`, border: '3px solid var(--saffron)', background: '#F2B84B33', borderRadius: 4 }} />
             )}
           </div>
+          )}
         </div>
         <div>
           <h1>Proposed content model</h1>

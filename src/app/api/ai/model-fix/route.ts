@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
 import { askJSON, backupPath } from '@/lib/claude'
+import { offlineModelFix } from '@/lib/offlineAi'
 
 const Model = z.object({ blocks: z.array(z.any()), collections: z.array(z.any()).default([]), pages: z.array(z.any()).default([]) }).passthrough()
 
@@ -25,6 +26,7 @@ Rules:
 Return the full model with the same structure as the current model.`,
     schema: Model,
     backup: backupPath('model-fixed.json'),
+    offline: () => offlineModelFix(model, instruction),
   })
   return NextResponse.json({ model: data, usedBackup })
 }

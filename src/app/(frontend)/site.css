@@ -80,3 +80,17 @@ body { margin: 0; background: var(--paper); color: var(--ink); font: 400 18px/1.
 .fixbar { display: flex; gap: 8px; margin: 24px 0; }
 .fixbar input { flex: 1; padding: 11px 14px; font: inherit; font-size: 16px; border: 1px solid var(--line); border-radius: 8px; }
 @media (max-width: 800px) { .split { grid-template-columns: 1fr; } .features > div { border-right: 0; } }
+
+/* Studio start: prompt box */
+.studio__start { max-width: 760px; padding-top: 96px; }
+.studio__start h1 { font-size: 52px; }
+.studio__start > p { font-size: 20px; max-width: 56ch; }
+.prompt { margin-top: 32px; border: 1px solid var(--ink); border-radius: 16px; background: #fff; padding: 16px; box-shadow: 6px 6px 0 var(--teal-tint); }
+.prompt textarea { width: 100%; border: 0; resize: none; font: 400 18px/1.5 var(--sans); outline: none; background: transparent; }
+.prompt__files { list-style: none; display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 0; padding: 0; }
+.prompt__files li { display: flex; gap: 8px; align-items: center; background: var(--teal-tint); border-radius: 8px; padding: 6px 10px; font-size: 14px; }
+.prompt__files span { font: 500 11px var(--mono); background: var(--teal); color: #fff; border-radius: 4px; padding: 3px 5px; }
+.prompt__files button { border: 0; background: none; cursor: pointer; font-size: 18px; line-height: 1; }
+.prompt__row { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+.prompt__attach { border: 1px dashed var(--teal); color: var(--teal); background: none; border-radius: 8px; padding: 10px 14px; font: 600 14px var(--sans); cursor: pointer; }
+.prompt__hint { margin-top: 16px; background: none; border: 0; color: var(--teal); text-decoration: underline; font: 400 15px var(--sans); cursor: pointer; text-align: left; }

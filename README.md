@@ -17,7 +17,12 @@ npm run reset               # restore clean DBs from demo/*.seed.db before every
 npm run dev:before          # :3000
 npm run dev:after           # :3001
 ```
-Without `ANTHROPIC_API_KEY` (or if a call fails or takes over 20 s) every AI route falls back to `demo/stored/backups/*`.
+### AI mode
+`DEMO_AI=live` (default when a key exists) calls Claude and falls back to stored output on failure or after 20 s.
+`DEMO_AI=stored` (or no key) skips the API entirely. Stored mode is **not** canned: `src/lib/offlineAi.ts` builds the answer from the real input
+(the instruction, the brief text, the page diff), so a changed instruction or brief changes the result. `demo/stored/backups/*` is the last resort.
+
+**Run `npm run reset` only with both dev servers stopped**, or SQLite reports a read-only database.
 
 ## Scenes ↔ code
 | Scene | Where |

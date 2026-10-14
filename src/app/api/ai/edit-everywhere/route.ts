@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { askJSON, backupPath } from '@/lib/claude'
 import { currentUser, loadContext } from '@/lib/context'
 import { logActivity } from '@/lib/activity'
+import { offlineEdits } from '@/lib/offlineAi'
 import { flattenPage, getAtPath, setAtPath, type FlatField } from '@/lib/flatten'
 
 const SYSTEM = `You make precise edits to existing web pages in a CMS. You change only what the instruction asks and keep all other wording identical. You reply with one JSON object and nothing else.`
@@ -66,6 +67,7 @@ Return:
 { "changes": [{ "pageId": "", "pageTitle": "", "path": "", "before": "", "after": "" }] }`,
     schema: Changes,
     backup: backupPath('edit-changes.json'),
+    offline: () => offlineEdits(body.instruction, flat) as z.infer<typeof Changes>,
   })
 
   // Keep only changes whose `before` matches the stored text exactly; fix up page ids by title.
@@ -75,6 +77,6 @@ Return:
     const cur = getAtPath(page, c.path)
     return cur === c.before && c.after !== c.before ? [{ ...c, pageId: page.id, pageTitle: page.title }] : []
   })
-  await logActivity(payload, { task: 'edit-everywhere (proposed)', inputSummary: body.instruction, output: { count: changes.length }, usedBackup, userId: user?.id })
+  await logActivity(payload, { task: 'edit-everywhere-proposed', inputSummary: body.instruction, output: { count: changes.length }, usedBackup, userId: user?.id })
   return NextResponse.json({ changes, usedBackup })
 }

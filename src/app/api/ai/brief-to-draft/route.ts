@@ -6,6 +6,7 @@ import { allBlocks } from '@/blocks'
 import { askJSON, backupPath } from '@/lib/claude'
 import { currentUser, loadContext } from '@/lib/context'
 import { logActivity } from '@/lib/activity'
+import { offlineBriefToDraft } from '@/lib/offlineAi'
 import { schemaSummary } from '@/lib/schemaSummary'
 
 const SYSTEM = `You draft web pages for Halden Health inside Payload CMS. You only use the blocks and fields you are given. You reply with one JSON object and nothing else.`
@@ -60,6 +61,7 @@ Return:
 }`,
     schema: Draft,
     backup: backupPath('brief-draft.json'),
+    offline: () => offlineBriefToDraft(briefText, claims),
   })
 
   // Resolve claim ids to relationship ids on productHighlight blocks.

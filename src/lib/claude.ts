@@ -22,11 +22,20 @@ export async function askJSON<T>(opts: {
   user: string
   schema: ZodSchema<T>
   backup: string
+  /** Rule-based answer built from the real input; used in stored mode before the backup file. */
+  offline?: () => T
   model?: string
   images?: { mediaType: 'image/png' | 'image/jpeg'; base64: string }[]
 }): Promise<{ data: T; usedBackup: boolean }> {
+  const stored = async () => {
+    if (opts.offline) {
+      try { return { data: opts.schema.parse(opts.offline()), usedBackup: true } } catch (e) { console.warn('[ai] offline engine failed:', (e as Error).message) }
+    }
+    return { data: opts.schema.parse(JSON.parse(await fs.readFile(opts.backup, 'utf8'))), usedBackup: true }
+  }
+  // DEMO_AI=stored forces stored output; "live" (default when a key exists) calls Claude and falls back on failure.
+  if (process.env.DEMO_AI === 'stored' || !process.env.ANTHROPIC_API_KEY) return stored()
   try {
-    if (!process.env.ANTHROPIC_API_KEY) throw new Error('no api key')
     const client = new Anthropic()
     const content = [
       ...(opts.images ?? []).map((i) => ({
@@ -48,8 +57,7 @@ export async function askJSON<T>(opts: {
     const json = JSON.parse(text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1))
     return { data: opts.schema.parse(json), usedBackup: false }
   } catch (err) {
-    console.warn(`[ai] falling back to ${opts.backup}:`, (err as Error).message)
-    const raw = JSON.parse(await fs.readFile(opts.backup, 'utf8'))
-    return { data: opts.schema.parse(raw), usedBackup: true }
+    console.warn('[ai] live call failed, using stored output:', (err as Error).message)
+    return stored()
   }
 }
