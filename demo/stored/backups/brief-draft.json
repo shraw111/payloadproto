@@ -2,7 +2,7 @@
   "title": "Summer electric push",
   "slug": "summer",
   "metaDescription": "Make every journey count with the Nissan Ariya. £2,500 charging credit with every new Ariya. Ends 31 August.",
-  "disclaimer": "Based on a 130 kW charger under ideal conditions. Charging times vary.",
+  "disclaimer": "Figures quoted use a 130 kW DC fast charger. 35 minutes on the 63kWh battery, 40 minutes on the 87kWh battery. Charging time may vary.",
   "layout": [
     {
       "blockType": "hero",
@@ -14,7 +14,7 @@
     {
       "blockType": "productHighlight",
       "productName": "Nissan Ariya",
-      "body": "Nissan Ariya goes further than any other electric SUV, and it's quiet, so every drive feels easier.",
+      "body": "Nissan Ariya goes further than any other electric SUV, and it seats five, so every drive feels easier.",
       "claims": []
     },
     {
@@ -25,10 +25,10 @@
           "text": "Zero tailpipe emissions."
         },
         {
-          "text": "Rapid charging from 10 to 80% in about 30 minutes."
+          "text": "Rapid charging from 0 to 80% in as little as 35 minutes."
         },
         {
-          "text": "Flat-floor cabin with space to spare."
+          "text": "466 litres of boot space with the seats up."
         }
       ]
     },
@@ -49,6 +49,7 @@
   "claimsUsed": [
     "C-01",
     "C-03",
+    "C-05",
     "C-06"
   ],
   "sources": []
