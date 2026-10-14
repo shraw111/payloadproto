@@ -1,0 +1,337 @@
+{
+  "blocks": [
+    {
+      "slug": "hero",
+      "label": "Hero",
+      "frame": "home",
+      "region": {
+        "x": 0,
+        "y": 0,
+        "w": 100,
+        "h": 28
+      },
+      "confidence": "high",
+      "note": "",
+      "fields": [
+        {
+          "name": "headline",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "subheadline",
+          "type": "textarea",
+          "required": false
+        },
+        {
+          "name": "image",
+          "type": "upload",
+          "required": false
+        },
+        {
+          "name": "ctaLabel",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "ctaLink",
+          "type": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "slug": "productHighlight",
+      "label": "Product highlight",
+      "frame": "home",
+      "region": {
+        "x": 0,
+        "y": 28,
+        "w": 100,
+        "h": 20
+      },
+      "confidence": "high",
+      "note": "",
+      "fields": [
+        {
+          "name": "productName",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "body",
+          "type": "textarea",
+          "required": false
+        },
+        {
+          "name": "image",
+          "type": "upload",
+          "required": false
+        },
+        {
+          "name": "claims",
+          "type": "relationship",
+          "required": false,
+          "relationTo": "claims"
+        }
+      ]
+    },
+    {
+      "slug": "featureGrid",
+      "label": "Feature grid",
+      "frame": "home",
+      "region": {
+        "x": 0,
+        "y": 48,
+        "w": 100,
+        "h": 16
+      },
+      "confidence": "high",
+      "note": "",
+      "fields": [
+        {
+          "name": "heading",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "items",
+          "type": "array",
+          "required": false,
+          "fields": [
+            {
+              "name": "title",
+              "type": "text",
+              "required": false
+            },
+            {
+              "name": "text",
+              "type": "textarea",
+              "required": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "offerBanner",
+      "label": "Offer banner",
+      "frame": "home",
+      "region": {
+        "x": 0,
+        "y": 64,
+        "w": 100,
+        "h": 10
+      },
+      "confidence": "high",
+      "note": "",
+      "fields": [
+        {
+          "name": "offerText",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "terms",
+          "type": "textarea",
+          "required": false
+        },
+        {
+          "name": "ctaLabel",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "ctaLink",
+          "type": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "slug": "testimonialCard",
+      "label": "Testimonial (card)",
+      "frame": "home",
+      "region": {
+        "x": 0,
+        "y": 74,
+        "w": 100,
+        "h": 12
+      },
+      "confidence": "low",
+      "note": "Same content as the quote testimonial on the product frame, shown in a different layout.",
+      "fields": [
+        {
+          "name": "quote",
+          "type": "textarea",
+          "required": true
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "role",
+          "type": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "slug": "testimonialQuote",
+      "label": "Testimonial (quote)",
+      "frame": "product",
+      "region": {
+        "x": 0,
+        "y": 70,
+        "w": 100,
+        "h": 12
+      },
+      "confidence": "low",
+      "note": "Same content as the card testimonial on the home frame, shown in a different layout.",
+      "fields": [
+        {
+          "name": "quote",
+          "type": "textarea",
+          "required": true
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "role",
+          "type": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "slug": "faq",
+      "label": "FAQ",
+      "frame": "product",
+      "region": {
+        "x": 0,
+        "y": 48,
+        "w": 100,
+        "h": 22
+      },
+      "confidence": "high",
+      "note": "",
+      "fields": [
+        {
+          "name": "heading",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "items",
+          "type": "array",
+          "required": false,
+          "fields": [
+            {
+              "name": "question",
+              "type": "text",
+              "required": false
+            },
+            {
+              "name": "answer",
+              "type": "textarea",
+              "required": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "cta",
+      "label": "Call to action",
+      "frame": "home",
+      "region": {
+        "x": 0,
+        "y": 86,
+        "w": 100,
+        "h": 14
+      },
+      "confidence": "high",
+      "note": "",
+      "fields": [
+        {
+          "name": "heading",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "buttonLabel",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "buttonLink",
+          "type": "text",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "collections": [
+    {
+      "slug": "claims",
+      "fields": [
+        {
+          "name": "claimId",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "text",
+          "type": "textarea",
+          "required": true
+        },
+        {
+          "name": "disclaimer",
+          "type": "textarea",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "title": "Home",
+      "slug": "home",
+      "layout": [
+        "hero",
+        "productHighlight",
+        "featureGrid",
+        "offerBanner",
+        "testimonialCard",
+        "cta"
+      ]
+    },
+    {
+      "title": "Halden Allergy 24",
+      "slug": "allergy-24",
+      "layout": [
+        "hero",
+        "productHighlight",
+        "faq",
+        "offerBanner",
+        "testimonialQuote",
+        "cta"
+      ]
+    },
+    {
+      "title": "Spring campaign",
+      "slug": "spring",
+      "layout": [
+        "hero",
+        "offerBanner",
+        "featureGrid",
+        "cta"
+      ]
+    }
+  ]
+}

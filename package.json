@@ -1,0 +1,40 @@
+{
+  "name": "halden-studio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:before": "dotenv -e .env.before -- next dev -p 3000",
+    "dev:after": "dotenv -e .env.after -- next dev -p 3001",
+    "seed:after": "dotenv -e .env.after -- payload run src/seed/seed.ts",
+    "reset": "cp demo/after.seed.db after.db && cp demo/before.seed.db before.db",
+    "generate:importmap": "payload generate:importmap",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.133.0",
+    "@payloadcms/db-sqlite": "3.90.2",
+    "@payloadcms/next": "3.90.2",
+    "@payloadcms/richtext-lexical": "3.90.2",
+    "@payloadcms/ui": "3.90.2",
+    "graphql": "^16.8.1",
+    "jsondiffpatch": "^0.6.0",
+    "mammoth": "^1.8.0",
+    "next": "15.4.11",
+    "payload": "3.90.2",
+    "react": "19.1.0",
+    "react-diff-viewer-continued": "^4.0.0",
+    "react-dom": "19.1.0",
+    "sharp": "^0.34.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "19.1.8",
+    "@types/react-dom": "19.1.6",
+    "dotenv-cli": "^7.4.2",
+    "tsx": "^4.19.0",
+    "typescript": "5.7.3"
+  },
+  "engines": { "node": ">=20" }
+}

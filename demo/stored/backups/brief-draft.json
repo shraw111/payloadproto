@@ -1,0 +1,59 @@
+{
+  "title": "Summer pollen push",
+  "slug": "summer",
+  "metaDescription": "Make the most of every summer day with Halden Allergy 24: 24-hour relief, non-drowsy. New customers get 20% off their first order.",
+  "disclaimer": "Always read the label. Most people in clinical studies did not feel drowsy.",
+  "layout": [
+    {
+      "blockType": "hero",
+      "headline": "Make the most of every summer day",
+      "subheadline": "24-hour relief from hay fever symptoms.",
+      "ctaLabel": "Shop Allergy 24",
+      "ctaLink": "/allergy-24"
+    },
+    {
+      "blockType": "productHighlight",
+      "productName": "Halden Allergy 24",
+      "body": "Halden Allergy 24 works twice as fast as other allergy tablets, and it's non-drowsy, so you can stay out longer.",
+      "claims": [
+        "C-03"
+      ]
+    },
+    {
+      "blockType": "featureGrid",
+      "heading": "Three reasons",
+      "items": [
+        {
+          "text": "Relief that lasts through a full day outdoors."
+        },
+        {
+          "text": "One tablet a day for adults and children 12 and over."
+        },
+        {
+          "text": "Small, easy-to-swallow tablets."
+        }
+      ]
+    },
+    {
+      "blockType": "offerBanner",
+      "offerText": "20% off your first order",
+      "terms": "New customers only. Summer offer ends 31 August.",
+      "ctaLabel": "Shop now",
+      "ctaLink": "/allergy-24"
+    },
+    {
+      "blockType": "cta",
+      "heading": "Your summer, back",
+      "buttonLabel": "Find your relief",
+      "buttonLink": "/allergy-24"
+    }
+  ],
+  "claimsUsed": [
+    "C-03",
+    "C-14",
+    "C-05",
+    "C-07",
+    "C-01"
+  ],
+  "sources": []
+}

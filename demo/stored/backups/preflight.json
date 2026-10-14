@@ -1,0 +1,15 @@
+{
+  "findings": [
+    {
+      "type": "unapproved_claim",
+      "severity": "critical",
+      "path": "layout.1.body",
+      "quote": "works twice as fast as other allergy tablets",
+      "message": "Comparison with other products is not an approved claim.",
+      "fix": {
+        "replacement": "starts relieving symptoms within 1 hour",
+        "claimId": "C-02"
+      }
+    }
+  ]
+}

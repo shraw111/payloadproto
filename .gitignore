@@ -1,0 +1,13 @@
+node_modules
+.next
+.next-after
+.env.before
+.env.after
+*.db
+*.db-shm
+*.db-wal
+media
+src/payload-types.ts
+tsconfig.tsbuildinfo
+next-env.d.ts
+!demo/*.seed.db
