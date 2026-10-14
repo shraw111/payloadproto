@@ -31,5 +31,5 @@ export default buildConfig({
         }
       : {},
   },
-  typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },
+  typescript: { autoGenerate: false, outputFile: path.resolve(dirname, 'payload-types.ts') },
 })

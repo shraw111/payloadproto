@@ -22,18 +22,19 @@ export default function Build() {
   }
 
   return (
-    <main style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 24px' }}>
-      <p style={{ color: 'var(--teal)', fontWeight: 600 }}>PROTOTYPE · DEMO DESIGN</p>
-      <h1 style={{ fontFamily: 'var(--serif)', marginTop: 0 }}>Generated files</h1>
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
-        {files.map((f, i) => (
-          <button key={f.name} onClick={() => setOpen(i)} style={{ padding: '6px 14px', borderRadius: 999, border: '1px solid var(--teal)', cursor: 'pointer', background: i === open ? 'var(--teal)' : 'transparent', color: i === open ? '#fff' : 'var(--teal)' }}>{f.name}</button>
-        ))}
-      </div>
-      {files[open] && <DiffViewer oldValue="" newValue={files[open].code} splitView={false} hideLineNumbers={false} />}
-      <button onClick={apply} disabled={applying} style={{ marginTop: 24, padding: '12px 28px', background: 'var(--teal)', color: '#fff', border: 0, borderRadius: 999, cursor: 'pointer' }}>
-        {applying ? 'Applying…' : 'Apply'}
-      </button>
-    </main>
+    <div className="studio">
+      <header className="studio__bar"><b>AI Content Studio</b><span className="studio__tag">Prototype · demo design</span></header>
+      <main className="studio__body">
+        <h1>Generated files</h1>
+        <p>Everything below is new. Review it, then apply to build the admin.</p>
+        <div className="tabs" role="tablist">
+          {files.map((f, i) => (
+            <button key={f.name} role="tab" aria-selected={i === open} className="tab" style={{ fontFamily: 'var(--mono)', fontSize: 13 }} onClick={() => setOpen(i)}>{f.name}</button>
+          ))}
+        </div>
+        {files[open] && <DiffViewer oldValue="" newValue={files[open].code} splitView={false} hideLineNumbers={false} />}
+        <button className="mbtn" style={{ marginTop: 24 }} onClick={apply} disabled={applying}>{applying ? 'Applying…' : 'Apply'}</button>
+      </main>
+    </div>
   )
 }

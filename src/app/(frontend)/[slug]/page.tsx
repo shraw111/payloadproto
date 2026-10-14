@@ -25,7 +25,7 @@ export default async function Page({ params, searchParams }: Args) {
         return C ? <React.Fragment key={b.id ?? i}>{C(b)}</React.Fragment> : null
       })}
       {page.disclaimer && (
-        <footer style={{ maxWidth: 1040, margin: '0 auto', padding: '24px', fontSize: 13, opacity: 0.8 }}>{page.disclaimer}</footer>
+        <footer className="fineprint">{page.disclaimer}</footer>
       )}
     </main>
   )
