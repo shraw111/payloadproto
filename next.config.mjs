@@ -4,6 +4,7 @@ import { withPayload } from '@payloadcms/next/withPayload'
 const nextConfig = {
   distDir: process.env.DEMO_STAGE === 'after' ? '.next-after' : '.next',
   typescript: { ignoreBuildErrors: true },
+  devIndicators: false, // hides the dev badge so it never appears in recordings
 }
 
 export default withPayload(nextConfig)
