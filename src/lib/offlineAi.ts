@@ -58,8 +58,9 @@ export function offlineBriefToDraft(brief: string, claims: Claim[]) {
   const line = (re: RegExp) => brief.match(re)?.[1]?.trim()
   const title = line(/Campaign brief:\s*(.+)/i) ?? 'New campaign'
   const slug = (line(/Slug:\s*\/?([\w-]+)/i) ?? title.toLowerCase().replace(/\W+/g, '-')).replace(/^\//, '')
-  const pct = line(/(\d+)%\s*off/i)
   const season = line(/(\w+) offer:/i) ?? 'Campaign'
+  const offerText = line(/offer:\s*([^.]+)\./i) ?? 'New offer'
+  const customers = line(/offer:[^.]+\.\s*([^.]+)\./i)
   const ends = line(/Ends\s+(\d+\s+\w+)/i)
   const q = (label: string, from: string) => from.match(new RegExp(`${label}:\\s*["“]([^"”]+)["”]`, 'i'))?.[1]
 
@@ -67,16 +68,16 @@ export function offlineBriefToDraft(brief: string, claims: Claim[]) {
   const layout: any[] = []
   for (const it of items) {
     if (/^hero/i.test(it)) {
-      layout.push({ blockType: 'hero', headline: q('Headline', it) ?? title, subheadline: q('Subheadline', it) ?? '', ctaLabel: q('Button', it) ?? 'Shop now', ctaLink: '/allergy-24' })
+      layout.push({ blockType: 'hero', headline: q('Headline', it) ?? title, subheadline: q('Subheadline', it) ?? '', ctaLabel: q('Button', it) ?? 'Book a test drive', ctaLink: '/ariya' })
     } else if (/^product/i.test(it)) {
       const body = it.replace(/^product\.?\s*/i, '')
-      layout.push({ blockType: 'productHighlight', productName: body.match(/Halden Allergy 24/)?.[0] ?? 'Halden Allergy 24', body, claims: [] })
+      layout.push({ blockType: 'productHighlight', productName: body.match(/Nissan Ariya/)?.[0] ?? 'Nissan Ariya', body, claims: [] })
     } else if (/^three reasons/i.test(it)) {
       layout.push({ blockType: 'featureGrid', heading: 'Three reasons', items: it.replace(/^three reasons:\s*/i, '').split(';').map((t) => ({ text: sentence(t) })) })
     } else if (/^offer banner/i.test(it)) {
-      layout.push({ blockType: 'offerBanner', offerText: `${pct ?? '20'}% off your first order`, terms: `New customers only.${ends ? ` ${season} offer ends ${ends}.` : ''}`, ctaLabel: 'Shop now', ctaLink: '/allergy-24' })
+      layout.push({ blockType: 'offerBanner', offerText, terms: [customers && `${customers}.`, ends && `${season} offer ends ${ends}.`].filter(Boolean).join(' '), ctaLabel: 'View offers', ctaLink: '/ariya' })
     } else if (/^closing/i.test(it)) {
-      layout.push({ blockType: 'cta', heading: q('', it.replace(/Closing call to action:\s*/i, 'x: ')) ?? it.match(/["“]([^"”]+)["”]/)?.[1] ?? 'Shop now', buttonLabel: q('Button', it) ?? 'Find your relief', buttonLink: '/allergy-24' })
+      layout.push({ blockType: 'cta', heading: q('', it.replace(/Closing call to action:\s*/i, 'x: ')) ?? it.match(/["“]([^"”]+)["”]/)?.[1] ?? 'Shop now', buttonLabel: q('Button', it) ?? 'Book a test drive', buttonLink: '/ariya' })
     }
   }
 
@@ -85,7 +86,7 @@ export function offlineBriefToDraft(brief: string, claims: Claim[]) {
   const used = claims.filter((c) => all.includes(c.text.toLowerCase().replace(/\.$/, '')))
   const disclaimers = [...new Set(used.flatMap((c) => (c.disclaimer && c.disclaimer !== 'None' ? c.disclaimer.split(/(?<=[.!?])\s+/) : [])))]
   const headline = layout.find((b) => b.blockType === 'hero')?.headline ?? title
-  const meta = `${headline} with Halden Allergy 24. New customers get ${pct ?? '20'}% off their first order.${ends ? ` Ends ${ends}.` : ''}`
+  const meta = `${headline} with the Nissan Ariya. ${cap(offerText)}.${ends ? ` Ends ${ends}.` : ''}`
 
   return {
     title, slug, metaDescription: meta.slice(0, 155), disclaimer: disclaimers.join(' '), layout,
@@ -94,14 +95,21 @@ export function offlineBriefToDraft(brief: string, claims: Claim[]) {
 }
 
 /* ---------- edit everywhere ---------- */
+const MONEY = /[£$€]\s?\d[\d,]*(?:\.\d+)?/g
+const PERCENT = /\d+(?:\.\d+)?\s?%/g
+
 export function offlineEdits(instruction: string, fields: FlatField[]) {
   const changes: { pageId: string | number; pageTitle: string; path: string; before: string; after: string }[] = []
-  const pct = instruction.match(/(\d+)\s*%/)?.[1]
+  // "Change the offer to £2,500 ..." swaps every money amount; "... to 20% ..." swaps every percentage.
+  const money = instruction.match(/[£$€]\s?\d[\d,]*(?:\.\d+)?/)?.[0]
+  const pct = !money ? instruction.match(/(\d+(?:\.\d+)?)\s?%/)?.[0] : undefined
   const swap = instruction.match(/change\s+["“]?(.+?)["”]?\s+to\s+["“]?(.+?)["”]?(?:\s+(?:on|in|across)\b.*)?$/i)
   for (const f of fields) {
     let after = f.text
-    if (pct && /\d+%/.test(f.text)) after = f.text.replace(/\d+%/g, `${pct}%`)
-    else if (!pct && swap && f.text.includes(swap[1])) after = f.text.split(swap[1]).join(swap[2])
+    if (money && MONEY.test(f.text)) after = f.text.replace(MONEY, money)
+    else if (pct && PERCENT.test(f.text)) after = f.text.replace(PERCENT, pct)
+    else if (!money && !pct && swap && f.text.includes(swap[1])) after = f.text.split(swap[1]).join(swap[2])
+    MONEY.lastIndex = 0; PERCENT.lastIndex = 0
     if (after !== f.text) changes.push({ pageId: f.pageId, pageTitle: f.pageTitle, path: f.path, before: f.text, after })
   }
   return { changes }

@@ -14,7 +14,7 @@ import { BrandRules } from './globals/BrandRules'
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 const after = process.env.DEMO_STAGE === 'after'
 
-// "before" = studio + empty CMS; "after" = the generated Halden model.
+// "before" = studio + empty CMS; "after" = the generated content model.
 export default buildConfig({
   secret: process.env.PAYLOAD_SECRET || 'dev-secret',
   db: sqliteAdapter({ client: { url: process.env.DATABASE_URI || 'file:./after.db' } }),

@@ -11,12 +11,13 @@ export type Finding = {
   source: 'rule' | 'ai'
 }
 
-/** Phrases that are always critical. The planted brief claim lives here so it is caught even if the AI wobbles. */
-const RISKY: { re: RegExp; label: string }[] = [
-  { re: /works\s+twice as fast as [a-z ]+/i, label: 'twice as fast' },
-  { re: /(?:is |are )?faster than [^,.;]+/i, label: 'faster than' },
-  { re: /\bcures?\b[^,.;]*/i, label: 'cure' },
-  { re: /\bguaranteed?\b[^,.;]*/i, label: 'guaranteed' },
+/** Phrases that are always critical. The planted brief claim ("goes further than any other electric SUV") lives here so it is caught even if the AI wobbles. */
+const RISKY: { re: RegExp; label: string; lead: string }[] = [
+  { re: /goes\s+(?:further|farther) than [^,.;]+/i, label: 'further than', lead: 'offers ' },
+  { re: /(?:has|offers) the (?:longest|best) range[^,.;]*/i, label: 'longest range', lead: 'offers ' },
+  { re: /(?:is |are )?(?:faster|quicker|cheaper|safer) than [^,.;]+/i, label: 'comparison', lead: 'offers ' },
+  { re: /best[- ]in[- ]class/i, label: 'best in class', lead: '' },
+  { re: /\bguaranteed?\b[^,.;]*/i, label: 'guaranteed', lead: '' },
 ]
 
 const lower = (s: string) => s.charAt(0).toLowerCase() + s.slice(1).replace(/\.$/, '')
@@ -44,8 +45,8 @@ export function runFixedRules(
       if (!m) continue
       findings.push({
         type: 'unapproved_claim', severity: 'critical', path: f.path, quote: m[0],
-        message: `"${m[0]}" is not an approved claim. Comparisons with other products are not allowed.`,
-        fix: c02 ? { replacement: lower(c02.text), claimId: c02.claimId } : null,
+        message: `"${m[0]}" is not an approved claim. Comparisons with other vehicles are not allowed.`,
+        fix: c02 ? { replacement: r.lead + lower(c02.text), claimId: c02.claimId } : null,
         source: 'rule',
       })
     }

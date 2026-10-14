@@ -43,7 +43,7 @@ export default function Review() {
       <main className="studio__body split">
         <div>
           {source === 'prompt' ? (
-            <div style={{ background: 'var(--teal-tint)', borderRadius: 8, padding: 24, minHeight: 200 }}>
+            <div style={{ background: 'var(--tint)', borderRadius: 8, padding: 24, minHeight: 200 }}>
               <p className="eyebrow">Your description</p>
               <p style={{ margin: 0 }}>Generated from your description, with no design attached. Page sections are proposed from the words alone.</p>
             </div>
@@ -51,7 +51,7 @@ export default function Review() {
           <div style={{ position: 'relative' }}>
             <img src={`/api/studio/stored?name=thumbnails/${frame}.svg`} alt={`${frame} frame`} width={360} style={{ display: 'block', border: '1px solid var(--line)', borderRadius: 8 }} />
             {active && (
-              <div style={{ position: 'absolute', left: `${active.region.x}%`, top: `${active.region.y}%`, width: `${active.region.w}%`, height: `${active.region.h}%`, border: '3px solid var(--saffron)', background: '#F2B84B33', borderRadius: 4 }} />
+              <div style={{ position: 'absolute', left: `${active.region.x}%`, top: `${active.region.y}%`, width: `${active.region.w}%`, height: `${active.region.h}%`, border: '3px solid var(--flag)', background: '#F2B84B33', borderRadius: 4 }} />
             )}
           </div>
           )}

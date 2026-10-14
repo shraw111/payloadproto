@@ -27,7 +27,7 @@ export default function ReviewItem({ id, title, slug }: { id: string | number; t
   }
 
   return (
-    <div style={{ border: '1px solid var(--theme-elevation-150)', borderTop: '3px solid #0F6B5C', borderRadius: 6, padding: 20, marginBottom: 16 }}>
+    <div style={{ border: '1px solid var(--theme-elevation-150)', borderTop: '3px solid #C3002F', borderRadius: 6, padding: 20, marginBottom: 16 }}>
       <h3 style={{ marginTop: 0 }}>{title} <small>/{slug}</small></h3>
       {!summary && <button className="btn btn--style-primary btn--size-medium" onClick={load} disabled={busy}>{busy ? 'Summarising…' : 'Open for review'}</button>}
       {summary && (

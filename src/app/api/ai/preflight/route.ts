@@ -7,7 +7,7 @@ import { logActivity } from '@/lib/activity'
 import { flattenPage, getAtPath, setAtPath } from '@/lib/flatten'
 import { dedupe, runFixedRules, type Finding } from '@/lib/preflightRules'
 
-const SYSTEM = `You pre-check web pages for Halden Health before human compliance review. You flag problems and suggest fixes; you never approve anything. You reply with one JSON object and nothing else.`
+const SYSTEM = `You pre-check vehicle web pages before human compliance review. You flag problems and suggest fixes; you never approve anything. You reply with one JSON object and nothing else.`
 
 const AiFindings = z.object({
   findings: z.array(z.object({

@@ -1,59 +1,55 @@
 {
-  "title": "Summer pollen push",
+  "title": "Summer electric push",
   "slug": "summer",
-  "metaDescription": "Make the most of every summer day with Halden Allergy 24: 24-hour relief, non-drowsy. New customers get 20% off their first order.",
-  "disclaimer": "Always read the label. Most people in clinical studies did not feel drowsy.",
+  "metaDescription": "Make every journey count with the Nissan Ariya. £2,500 charging credit with every new Ariya. Ends 31 August.",
+  "disclaimer": "Based on a 130 kW charger under ideal conditions. Charging times vary.",
   "layout": [
     {
       "blockType": "hero",
-      "headline": "Make the most of every summer day",
-      "subheadline": "24-hour relief from hay fever symptoms.",
-      "ctaLabel": "Shop Allergy 24",
-      "ctaLink": "/allergy-24"
+      "headline": "Make every journey count",
+      "subheadline": "Zero tailpipe emissions.",
+      "ctaLabel": "Book a test drive",
+      "ctaLink": "/ariya"
     },
     {
       "blockType": "productHighlight",
-      "productName": "Halden Allergy 24",
-      "body": "Halden Allergy 24 works twice as fast as other allergy tablets, and it's non-drowsy, so you can stay out longer.",
-      "claims": [
-        "C-03"
-      ]
+      "productName": "Nissan Ariya",
+      "body": "Nissan Ariya goes further than any other electric SUV, and it's quiet, so every drive feels easier.",
+      "claims": []
     },
     {
       "blockType": "featureGrid",
       "heading": "Three reasons",
       "items": [
         {
-          "text": "Relief that lasts through a full day outdoors."
+          "text": "Zero tailpipe emissions."
         },
         {
-          "text": "One tablet a day for adults and children 12 and over."
+          "text": "Rapid charging from 10 to 80% in about 30 minutes."
         },
         {
-          "text": "Small, easy-to-swallow tablets."
+          "text": "Flat-floor cabin with space to spare."
         }
       ]
     },
     {
       "blockType": "offerBanner",
-      "offerText": "20% off your first order",
-      "terms": "New customers only. Summer offer ends 31 August.",
-      "ctaLabel": "Shop now",
-      "ctaLink": "/allergy-24"
+      "offerText": "£2,500 charging credit with every new Ariya",
+      "terms": "Retail customers only. Summer offer ends 31 August.",
+      "ctaLabel": "View offers",
+      "ctaLink": "/ariya"
     },
     {
       "blockType": "cta",
-      "heading": "Your summer, back",
-      "buttonLabel": "Find your relief",
-      "buttonLink": "/allergy-24"
+      "heading": "Your electric summer",
+      "buttonLabel": "Find your Ariya",
+      "buttonLink": "/ariya"
     }
   ],
   "claimsUsed": [
+    "C-01",
     "C-03",
-    "C-14",
-    "C-05",
-    "C-07",
-    "C-01"
+    "C-06"
   ],
   "sources": []
 }

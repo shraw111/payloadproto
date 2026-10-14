@@ -8,7 +8,7 @@ async function seed() {
   const payload = await getPayload({ config })
 
   const users = await payload.find({ collection: 'users', limit: 1 })
-  if (!users.totalDocs) await payload.create({ collection: 'users', data: { email: 'demo@halden.test', password: 'demo1234', name: 'Demo' } })
+  if (!users.totalDocs) await payload.create({ collection: 'users', data: { email: 'demo@studio.test', password: 'demo1234', name: 'Demo' } })
 
   const idByClaim = new Map<string, string | number>()
   for (const [claimId, text, disclaimer] of claims) {
@@ -36,7 +36,7 @@ async function seed() {
     })
     await payload.create({ collection: 'pages', data: { ...p, layout, reviewStatus: 'approved', _status: 'published' } as any })
   }
-  payload.logger.info('Seeded Halden demo content')
+  payload.logger.info('Seeded demo content')
   process.exit(0)
 }
 await seed()

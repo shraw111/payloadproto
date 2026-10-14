@@ -3,12 +3,12 @@ import React, { useRef, useState } from 'react'
 
 type Change = { pageId: string | number; pageTitle: string; path: string; before: string; after: string }
 
-const card: React.CSSProperties = { background: 'var(--theme-bg)', border: '1px solid var(--theme-elevation-150)', borderTop: '3px solid #0F6B5C', borderRadius: 6, padding: 20 }
-const eyebrow: React.CSSProperties = { font: '500 11px/1 ui-monospace, monospace', letterSpacing: '.1em', textTransform: 'uppercase', color: '#0F6B5C' }
+const card: React.CSSProperties = { background: 'var(--theme-bg)', border: '1px solid var(--theme-elevation-150)', borderTop: '3px solid #C3002F', borderRadius: 6, padding: 20 }
+const eyebrow: React.CSSProperties = { font: '500 11px/1 ui-monospace, monospace', letterSpacing: '.1em', textTransform: 'uppercase', color: '#C3002F' }
 
 export default function AssistantPanel() {
   const [busy, setBusy] = useState<string | null>(null)
-  const [instruction, setInstruction] = useState('Change the offer to 20% off your first order on every page')
+  const [instruction, setInstruction] = useState('Change the offer to £2,500 charging credit on every page')
   const [changes, setChanges] = useState<(Change & { on: boolean })[] | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 

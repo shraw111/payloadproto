@@ -9,7 +9,7 @@ import { logActivity } from '@/lib/activity'
 import { offlineBriefToDraft } from '@/lib/offlineAi'
 import { schemaSummary } from '@/lib/schemaSummary'
 
-const SYSTEM = `You draft web pages for Halden Health inside Payload CMS. You only use the blocks and fields you are given. You reply with one JSON object and nothing else.`
+const SYSTEM = `You draft web pages for a vehicle brand (demo content) inside Payload CMS. You only use the blocks and fields you are given. You reply with one JSON object and nothing else.`
 const known = new Set(allBlocks.map((b) => b.slug))
 
 const Draft = z.object({

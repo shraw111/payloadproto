@@ -1,79 +1,83 @@
+/**
+ * Demo content for a Nissan Ariya landing site. Every figure, claim and disclaimer here is an
+ * ILLUSTRATIVE placeholder written for the prototype. None of it is official Nissan information.
+ */
 export const claims: [string, string, string][] = [
-  ['C-01', '24-hour relief from hay fever symptoms.', 'Always read the label.'],
-  ['C-02', 'Starts relieving symptoms within 1 hour.', 'Individual results may vary. Always read the label.'],
-  ['C-03', 'Non-drowsy formula.', 'Most people in clinical studies did not feel drowsy. Always read the label.'],
-  ['C-04', 'Relieves sneezing, runny nose and itchy, watery eyes.', 'Always read the label.'],
-  ['C-05', 'One tablet a day for adults and children 12 and over.', 'Always read the label.'],
-  ['C-06', 'Also relieves year-round allergies to dust and pet dander.', 'Always read the label.'],
-  ['C-07', 'Small, easy-to-swallow tablets.', 'None'],
-  ['C-08', 'Lactose-free and gluten-free.', 'None'],
-  ['C-09', 'Can be taken with or without food.', 'Always read the label.'],
-  ['C-10', 'Developed with allergy specialists.', 'None'],
-  ['C-11', 'Trusted by over 1 million customers.', 'Based on units sold.'],
-  ['C-12', 'Recommended by pharmacists.', 'Based on a survey of 500 pharmacists.'],
-  ['C-13', 'Recyclable outer packaging.', 'None'],
-  ['C-14', 'Relief that lasts through a full day outdoors.', 'Always read the label.'],
-  ['C-15', 'Gentle enough to take every day of the season.', 'Always read the label. Do not exceed the stated dose.'],
+  ['C-01', 'Zero tailpipe emissions.', 'None'],
+  ['C-02', 'Up to 300 miles of range on a full charge (WLTP).', 'Official WLTP figure. Real-world range varies.'],
+  ['C-03', 'Rapid charging from 10 to 80% in about 30 minutes.', 'Based on a 130 kW charger under ideal conditions. Charging times vary.'],
+  ['C-04', 'Driver assistance features are available on selected trims.', 'Driver assistance does not replace driver attention.'],
+  ['C-05', 'Spacious cabin for five.', 'None'],
+  ['C-06', 'Flat-floor cabin with space to spare.', 'None'],
+  ['C-07', 'Over-the-air software updates.', 'Requires a connected services subscription.'],
+  ['C-08', 'Regenerative braking recovers energy as you slow down.', 'None'],
+  ['C-09', 'Heat pump available to warm the cabin efficiently.', 'Availability varies by trim.'],
+  ['C-10', 'Battery warranty included.', 'Terms and mileage limits apply.'],
+  ['C-11', 'Advanced safety features as standard.', 'Features vary by trim.'],
+  ['C-12', 'Quiet, smooth electric drive.', 'None'],
+  ['C-13', 'Recycled materials used in the cabin.', 'Content varies by trim.'],
+  ['C-14', 'Charge at home overnight with a home wall box.', 'Wall box installation subject to a home survey.'],
+  ['C-15', 'Room for the weekly shop and more.', 'None'],
 ]
 
 export const brandRules = {
-  tone: 'Calm, plain and reassuring. Speak to the reader as "you". Short sentences.',
-  readingAge: '9 to 11',
-  bannedWords: ['cure', 'miracle', 'guaranteed', 'instant', 'best', 'revolutionary'],
+  tone: 'Confident, calm and clear. Speak to the reader as "you". Short sentences. Facts before adjectives.',
+  readingAge: '10 to 12',
+  bannedWords: ['best', 'revolutionary', 'unbeatable', 'guaranteed', 'miracle', 'cheapest'],
   rules: [
-    'Never compare with other brands or products, by name or in general ("faster than", "better than").',
+    'Never compare with other brands or vehicles, by name or in general ("further than", "faster than", "best in class").',
     'Always pair any claim with its disclaimer on the same page.',
-    'Calls to action: "Shop Allergy 24", "Find your relief", "Shop now". No pressure language ("hurry", "last chance").',
+    'Calls to action: "Book a test drive", "Explore Ariya", "Find your Ariya". No pressure language ("hurry", "last chance").',
   ],
 }
 
 const offer = (cta: string) => ({
-  blockType: 'offerBanner', offerText: '15% off your first order',
-  terms: 'New customers only. Spring offer ends 31 May.', ctaLabel: cta, ctaLink: '/allergy-24',
+  blockType: 'offerBanner', offerText: '£1,500 charging credit with every new Ariya',
+  terms: 'Retail customers only. Spring offer ends 31 May.', ctaLabel: cta, ctaLink: '/ariya',
 })
 
 // claimIds are claim ids like C-03; the seed script resolves them to relationship ids.
 export const pages = [
   {
     title: 'Home', slug: 'home',
-    metaDescription: 'Halden Allergy 24 gives 24-hour relief from hay fever symptoms with one non-drowsy tablet a day. 15% off your first order.',
-    disclaimer: 'Always read the label. Individual results may vary. Most people in clinical studies did not feel drowsy.',
+    metaDescription: 'The Nissan Ariya is an electric crossover with zero tailpipe emissions and rapid charging. £1,500 charging credit with every new Ariya.',
+    disclaimer: 'Based on a 130 kW charger under ideal conditions. Charging times vary. Requires a connected services subscription.',
     layout: [
-      { blockType: 'hero', headline: 'Allergy relief that fits your day', subheadline: '24-hour relief from hay fever symptoms.', ctaLabel: 'Shop Allergy 24', ctaLink: '/allergy-24' },
-      { blockType: 'productHighlight', productName: 'Halden Allergy 24', body: 'Non-drowsy formula. One tablet a day for adults and children 12 and over.', claimIds: ['C-03', 'C-05'] },
-      { blockType: 'featureGrid', heading: 'Why people choose Halden', items: [
-        { text: 'Starts relieving symptoms within 1 hour.' }, { text: 'Non-drowsy formula.' }, { text: 'Small, easy-to-swallow tablets.' } ] },
-      offer('Shop now'),
-      { blockType: 'testimonial', layout: 'card', quote: 'I take one in the morning and forget about my hay fever.', name: 'Priya', role: 'primary school teacher' },
-      { blockType: 'cta', heading: 'Ready for a calmer spring?', buttonLabel: 'Find your relief', buttonLink: '/allergy-24' },
+      { blockType: 'hero', headline: 'Electric, made for every day', subheadline: 'Zero tailpipe emissions.', ctaLabel: 'Explore Ariya', ctaLink: '/ariya' },
+      { blockType: 'productHighlight', productName: 'Nissan Ariya', body: 'Zero tailpipe emissions. Flat-floor cabin with space to spare.', claimIds: ['C-01', 'C-06'] },
+      { blockType: 'featureGrid', heading: 'Why drivers choose Ariya', items: [
+        { text: 'Rapid charging from 10 to 80% in about 30 minutes.' }, { text: 'Quiet, smooth electric drive.' }, { text: 'Over-the-air software updates.' } ] },
+      offer('View offers'),
+      { blockType: 'testimonial', layout: 'card', quote: 'I charge it overnight and forget the petrol station exists.', name: 'Dana', role: 'daily commuter' },
+      { blockType: 'cta', heading: 'Ready to go electric?', buttonLabel: 'Book a test drive', buttonLink: '/ariya' },
     ],
   },
   {
-    title: 'Halden Allergy 24', slug: 'allergy-24',
-    metaDescription: 'Non-drowsy Halden Allergy 24 relieves sneezing, runny nose and itchy eyes for 24 hours. 15% off your first order.',
-    disclaimer: 'Always read the label. Most people in clinical studies did not feel drowsy.',
+    title: 'Nissan Ariya', slug: 'ariya',
+    metaDescription: 'Meet the Nissan Ariya: up to 300 miles of range on a full charge (WLTP), a flat-floor cabin and £1,500 charging credit.',
+    disclaimer: 'Official WLTP figure. Real-world range varies. Driver assistance does not replace driver attention. Availability varies by trim. Wall box installation subject to a home survey. Terms and mileage limits apply.',
     layout: [
-      { blockType: 'hero', headline: 'One tablet. A full day outdoors.', subheadline: 'Relief that lasts through a full day outdoors.', ctaLabel: 'Shop Allergy 24', ctaLink: '/allergy-24' },
-      { blockType: 'productHighlight', productName: 'Halden Allergy 24', body: 'Relieves sneezing, runny nose and itchy, watery eyes. Can be taken with or without food.', claimIds: ['C-04', 'C-09'] },
+      { blockType: 'hero', headline: 'One charge. A full week of commuting.', subheadline: 'Up to 300 miles of range on a full charge (WLTP).', ctaLabel: 'Book a test drive', ctaLink: '/ariya' },
+      { blockType: 'productHighlight', productName: 'Nissan Ariya', body: 'Driver assistance features are available on selected trims. Heat pump available to warm the cabin efficiently.', claimIds: ['C-04', 'C-09'] },
       { blockType: 'faq', heading: 'Questions', items: [
-        { question: 'Will it make me drowsy?', answer: 'It has a non-drowsy formula.' },
-        { question: 'Who can take it?', answer: 'Adults and children 12 and over, one tablet a day.' },
-        { question: 'Is it gluten-free?', answer: 'Yes, lactose-free and gluten-free.' } ] },
-      offer('Shop now'),
-      { blockType: 'testimonial', layout: 'quote', quote: 'Small tablets, no fuss, and I can garden all afternoon.', name: 'Tom', role: 'retired engineer' },
-      { blockType: 'cta', heading: 'Find your relief', buttonLabel: 'Shop Allergy 24', buttonLink: '/allergy-24' },
+        { question: 'How do I charge at home?', answer: 'Charge at home overnight with a home wall box.' },
+        { question: 'Is there a battery warranty?', answer: 'Battery warranty included.' },
+        { question: 'How many people fit?', answer: 'Spacious cabin for five.' } ] },
+      offer('View offers'),
+      { blockType: 'testimonial', layout: 'quote', quote: 'Quiet, quick to charge, and easy to live with.', name: 'Marcus', role: 'architect' },
+      { blockType: 'cta', heading: 'Find your Ariya', buttonLabel: 'Book a test drive', buttonLink: '/ariya' },
     ],
   },
   {
     title: 'Spring campaign', slug: 'spring',
-    metaDescription: 'Get ahead of pollen season with Halden Allergy 24: 24-hour relief, non-drowsy. New customers get 15% off their first order.',
-    disclaimer: 'Always read the label. Do not exceed the stated dose. Based on a survey of 500 pharmacists.',
+    metaDescription: 'Spring is the season to switch. Drive the Nissan Ariya with zero tailpipe emissions and get £1,500 charging credit with every new Ariya.',
+    disclaimer: 'Wall box installation subject to a home survey. Terms and mileage limits apply.',
     layout: [
-      { blockType: 'hero', headline: 'Get ahead of pollen season', subheadline: '24-hour relief from hay fever symptoms.', ctaLabel: 'Shop now', ctaLink: '/allergy-24' },
-      offer('Claim your 15%'),
+      { blockType: 'hero', headline: 'Spring is the season to switch', subheadline: 'Zero tailpipe emissions.', ctaLabel: 'Book a test drive', ctaLink: '/ariya' },
+      offer('Claim your £1,500'),
       { blockType: 'featureGrid', heading: 'Spring, sorted', items: [
-        { text: 'Relief that lasts through a full day outdoors.' }, { text: 'Gentle enough to take every day of the season.' }, { text: 'Recommended by pharmacists.' } ] },
-      { blockType: 'cta', heading: 'Pollen counts are rising', buttonLabel: 'Shop Allergy 24', buttonLink: '/allergy-24' },
+        { text: 'Charge at home overnight with a home wall box.' }, { text: 'Regenerative braking recovers energy as you slow down.' }, { text: 'Battery warranty included.' } ] },
+      { blockType: 'cta', heading: 'Spring test drives are open', buttonLabel: 'Book a test drive', buttonLink: '/ariya' },
     ],
   },
 ]

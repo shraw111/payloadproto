@@ -4,10 +4,10 @@
       "type": "unapproved_claim",
       "severity": "critical",
       "path": "layout.1.body",
-      "quote": "works twice as fast as other allergy tablets",
-      "message": "Comparison with other products is not an approved claim.",
+      "quote": "goes further than any other electric SUV",
+      "message": "Comparison with other vehicles is not an approved claim.",
       "fix": {
-        "replacement": "starts relieving symptoms within 1 hour",
+        "replacement": "offers up to 300 miles of range on a full charge (WLTP)",
         "claimId": "C-02"
       }
     }

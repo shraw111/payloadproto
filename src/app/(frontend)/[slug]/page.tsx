@@ -24,9 +24,10 @@ export default async function Page({ params, searchParams }: Args) {
         const C = blockComponents[b.blockType]
         return C ? <React.Fragment key={b.id ?? i}>{C(b)}</React.Fragment> : null
       })}
-      {page.disclaimer && (
-        <footer className="fineprint">{page.disclaimer}</footer>
-      )}
+      <footer className="fineprint">
+        {page.disclaimer && <p>{page.disclaimer}</p>}
+        <p>Prototype demo. Illustrative content, not official Nissan information.</p>
+      </footer>
     </main>
   )
 }

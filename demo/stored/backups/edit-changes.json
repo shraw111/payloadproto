@@ -2,63 +2,45 @@
   "changes": [
     {
       "pageTitle": "Home",
-      "path": "layout.3.offerText",
-      "before": "15% off your first order",
-      "after": "20% off your first order"
+      "path": "metaDescription",
+      "before": "The Nissan Ariya is an electric crossover with zero tailpipe emissions and rapid charging. £1,500 charging credit with every new Ariya.",
+      "after": "The Nissan Ariya is an electric crossover with zero tailpipe emissions and rapid charging. £2,500 charging credit with every new Ariya."
     },
     {
       "pageTitle": "Home",
-      "path": "layout.3.terms",
-      "before": "New customers only. Spring offer ends 31 May.",
-      "after": "New customers only. Summer offer ends 31 August."
-    },
-    {
-      "pageTitle": "Home",
-      "path": "metaDescription",
-      "before": "Halden Allergy 24 gives 24-hour relief from hay fever symptoms with one non-drowsy tablet a day. 15% off your first order.",
-      "after": "Halden Allergy 24 gives 24-hour relief from hay fever symptoms with one non-drowsy tablet a day. 20% off your first order."
-    },
-    {
-      "pageTitle": "Halden Allergy 24",
       "path": "layout.3.offerText",
-      "before": "15% off your first order",
-      "after": "20% off your first order"
+      "before": "£1,500 charging credit with every new Ariya",
+      "after": "£2,500 charging credit with every new Ariya"
     },
     {
-      "pageTitle": "Halden Allergy 24",
-      "path": "layout.3.terms",
-      "before": "New customers only. Spring offer ends 31 May.",
-      "after": "New customers only. Summer offer ends 31 August."
-    },
-    {
-      "pageTitle": "Halden Allergy 24",
+      "pageTitle": "Nissan Ariya",
       "path": "metaDescription",
-      "before": "Non-drowsy Halden Allergy 24 relieves sneezing, runny nose and itchy eyes for 24 hours. 15% off your first order.",
-      "after": "Non-drowsy Halden Allergy 24 relieves sneezing, runny nose and itchy eyes for 24 hours. 20% off your first order."
+      "before": "Meet the Nissan Ariya: up to 300 miles of range on a full charge (WLTP), a flat-floor cabin and £1,500 charging credit.",
+      "after": "Meet the Nissan Ariya: up to 300 miles of range on a full charge (WLTP), a flat-floor cabin and £2,500 charging credit."
+    },
+    {
+      "pageTitle": "Nissan Ariya",
+      "path": "layout.3.offerText",
+      "before": "£1,500 charging credit with every new Ariya",
+      "after": "£2,500 charging credit with every new Ariya"
+    },
+    {
+      "pageTitle": "Spring campaign",
+      "path": "metaDescription",
+      "before": "Spring is the season to switch. Drive the Nissan Ariya with zero tailpipe emissions and get £1,500 charging credit with every new Ariya.",
+      "after": "Spring is the season to switch. Drive the Nissan Ariya with zero tailpipe emissions and get £2,500 charging credit with every new Ariya."
     },
     {
       "pageTitle": "Spring campaign",
       "path": "layout.1.offerText",
-      "before": "15% off your first order",
-      "after": "20% off your first order"
-    },
-    {
-      "pageTitle": "Spring campaign",
-      "path": "layout.1.terms",
-      "before": "New customers only. Spring offer ends 31 May.",
-      "after": "New customers only. Summer offer ends 31 August."
+      "before": "£1,500 charging credit with every new Ariya",
+      "after": "£2,500 charging credit with every new Ariya"
     },
     {
       "pageTitle": "Spring campaign",
       "path": "layout.1.ctaLabel",
-      "before": "Claim your 15%",
-      "after": "Claim your 20%"
-    },
-    {
-      "pageTitle": "Spring campaign",
-      "path": "metaDescription",
-      "before": "Get ahead of pollen season with Halden Allergy 24: 24-hour relief, non-drowsy. New customers get 15% off their first order.",
-      "after": "Get ahead of pollen season with Halden Allergy 24: 24-hour relief, non-drowsy. New customers get 20% off their first order."
+      "before": "Claim your £1,500",
+      "after": "Claim your £2,500"
     }
   ]
 }

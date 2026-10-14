@@ -55,13 +55,13 @@ export default function PreflightPanel() {
   }
 
   return (
-    <div style={{ border: '1px solid var(--theme-elevation-150)', borderTop: '3px solid #0F6B5C', borderRadius: 6, padding: 14 }}>
-      <div style={{ font: '500 11px/1 ui-monospace, monospace', letterSpacing: '.1em', textTransform: 'uppercase', color: '#0F6B5C' }}>Pre-flight</div>
+    <div style={{ border: '1px solid var(--theme-elevation-150)', borderTop: '3px solid #C3002F', borderRadius: 6, padding: 14 }}>
+      <div style={{ font: '500 11px/1 ui-monospace, monospace', letterSpacing: '.1em', textTransform: 'uppercase', color: '#C3002F' }}>Pre-flight</div>
       <p style={{ margin: '8px 0 12px' }}>Checks this draft against approved claims and brand rules. Save your edits first.</p>
       <button type="button" className="btn btn--style-primary btn--size-small" onClick={submit} disabled={busy}>
         {busy ? 'Checking…' : 'Check and submit for review'}
       </button>
-      {note && <p style={{ color: '#0F6B5C', marginTop: 12 }}>✓ {note}</p>}
+      {note && <p style={{ color: '#C3002F', marginTop: 12 }}>✓ {note}</p>}
       {result && (
         <div style={{ marginTop: 12 }}>
           {result.findings.length === 0 && <p>No findings.</p>}
