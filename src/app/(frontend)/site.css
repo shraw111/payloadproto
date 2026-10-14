@@ -18,8 +18,8 @@ body { margin: 0; background: var(--paper); color: var(--ink); font: 400 18px/1.
 /* Hero + 24-hour strip */
 .hero { background: var(--tint); padding: 88px 0 0; overflow: hidden; }
 .hero__inner { position: relative; }
-.hero__24 { position: absolute; right: 24px; top: 8px; font-size: clamp(96px, 17vw, 250px); line-height: .8; color: transparent; -webkit-text-stroke: 2px var(--brand); letter-spacing: -.02em; pointer-events: none; }
-@media (max-width: 800px) { .hero__24 { opacity: .3; } }
+.hero__24 { position: absolute; right: 24px; top: 188px; font-size: clamp(64px, 10.5vw, 156px); line-height: .8; color: transparent; -webkit-text-stroke: 2px var(--brand); letter-spacing: -.02em; pointer-events: none; }
+@media (max-width: 800px) { .hero__24 { display: none; } }
 .hero h1, .hero p, .hero .btn { position: relative; }
 .hero h1 { font-size: clamp(40px, 6.4vw, 84px); max-width: 12ch; }
 .hero p { font-size: 22px; max-width: 30ch; margin: 24px 0 32px; }
