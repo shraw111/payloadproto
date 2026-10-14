@@ -1,6 +1,6 @@
 # AI Content Studio on Payload: demo video prototype
 
-Throwaway prototype for the ~4.5 minute demo video. The demo brand is a **Nissan Ariya** landing page. Claim wording is adapted from figures Nissan UK publishes for the Ariya (checked Oct 2026 on nissan.co.uk: the Ariya, range-charging and price-specifications pages), but **the claims library is a prototype fixture, not Nissan's approved claims**; the offer (£1,500 / £2,500 charging credit) and testimonials are invented. No Nissan logos or assets are used. One codebase, run twice:
+Throwaway prototype for the ~4.5 minute demo video. The demo brand is a **Nissan Ariya** landing page. Claim wording is adapted from figures Nissan UK publishes for the Ariya (checked Oct 2026 on nissan.co.uk: the Ariya, range-charging and price-specifications pages, plus Nissan UK's EV warranty wording for the 8-year / 100,000-mile battery guarantee), but **the claims library is a prototype fixture, not Nissan's approved claims**; the offer (£1,500 / £2,500 charging credit) and testimonials are invented. No Nissan logos or assets are used. One codebase, run twice:
 
 | Port | Copy | Env | Contents |
 | --- | --- | --- | --- |

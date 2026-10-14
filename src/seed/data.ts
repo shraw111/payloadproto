@@ -13,7 +13,7 @@ export const claims: [string, string, string][] = [
   ['C-07', 'NissanConnect Services keep you connected.', 'To use NissanConnect Services you need a compatible smartphone, a user account and a subscription.'],
   ['C-08', 'Charges from 10 to 100% in 6 hours 30 minutes at home.', 'Based on the 63kWh battery and an 11 kW AC charger.'],
   ['C-09', 'Heat pump fitted as standard.', 'None'],
-  ['C-10', 'Battery warranty of 8 years or 100,000 miles, whichever comes first.', 'Terms and conditions apply.'],
+  ['C-10', 'Battery warranty of 8 years or 100,000 miles, whichever comes first.', 'Covers battery capacity loss below 9 of 12 bars on the in-vehicle gauge. Terms and conditions apply.'],
   ['C-11', 'Vehicle-to-load lets you power devices from the battery.', 'A V2L connector is required and can be purchased at an additional cost.'],
   ['C-12', 'Choice of 63kWh or 87kWh battery.', 'None'],
   ['C-13', 'Maximum DC charging power of 130 kW.', 'Requires a CCS rapid charger rated at 130 kW or above.'],
