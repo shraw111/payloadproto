@@ -1,6 +1,6 @@
 # AI Content Studio on Payload: demo video prototype
 
-Throwaway prototype for the ~4.5 minute demo video (Halden Health, demo design only). One codebase, run twice:
+Throwaway prototype for the ~4.5 minute demo video. The demo brand is a **Nissan Ariya** landing page. **All content, figures, claims and disclaimers are illustrative placeholders, not official Nissan information**, and no Nissan logos or assets are used. One codebase, run twice:
 
 | Port | Copy | Env | Contents |
 | --- | --- | --- | --- |
@@ -12,7 +12,7 @@ Throwaway prototype for the ~4.5 minute demo video (Halden Health, demo design o
 npm install --legacy-peer-deps
 cp .env.example .env.before && cp .env.example .env.after   # then edit: DEMO_STAGE=after, DATABASE_URI=file:./after.db in .env.after
 # add ANTHROPIC_API_KEY to both
-npm run seed:after          # claims, brand rules, 3 pages, demo@halden.test / demo1234
+npm run seed:after          # claims, brand rules, 3 pages, demo@studio.test / demo1234
 npm run reset               # restore clean DBs from demo/*.seed.db before every take
 npm run dev:before          # :3000
 npm run dev:after           # :3001
@@ -31,7 +31,7 @@ npm run dev:after           # :3001
 | 2 | `studio/review/page.tsx`, `api/ai/model-fix` (live) |
 | 3 | `studio/build/page.tsx` (Apply goes to the after copy) |
 | 4 | `src/app/(frontend)/[slug]`, `src/components/blocks` (designer polishes) |
-| 5 | `src/admin/AssistantPanel.tsx`, `api/ai/brief-to-draft` (use `demo/Summer pollen brief.docx`) |
+| 5 | `src/admin/AssistantPanel.tsx`, `api/ai/brief-to-draft` (use `demo/Summer electric brief.docx`) |
 | 6 | `AssistantPanel.tsx`, `api/ai/edit-everywhere` |
 | 7 | `src/admin/PreflightPanel.tsx`, `api/ai/preflight`, `src/lib/preflightRules.ts` |
 | 8 | `src/admin/ReviewQueue.tsx` (`/admin/review`), `api/ai/change-summary`, `api/ai/approve` |

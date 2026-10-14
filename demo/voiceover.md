@@ -4,7 +4,7 @@ Plain words, one block per scene. Scene 0 (title card) has no voice-over. The vi
 
 ## Scene 1: Upload the design
 
-We start from the designer's Figma file, as is. Attach it, say what we are building, and the studio reads the frames.
+We start from the designer's Figma file for the Nissan Ariya landing page, as is. Attach it, say what we are building, and the studio reads the frames.
 
 ## Scene 2: Review the model
 
