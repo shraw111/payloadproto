@@ -21,9 +21,9 @@ export default async function TemplatePreview({ params, searchParams }: { params
   const rules: any = await payload.findGlobal({ slug: 'brand-rules' })
   const dealer: any = q.dealer ? (await payload.find({ collection: 'dealers', where: { slug: { equals: q.dealer } }, limit: 1 })).docs[0] : null
   const built = t.build(
-    { dealerName: dealer?.name ?? 'Your dealership', amount: q.amount ? Number(q.amount) : undefined, endsAt: q.ends || undefined, models: q.models || undefined, extra: q.extra || undefined },
+    { dealerName: dealer?.name ?? 'Your dealership', amount: q.amount !== undefined && q.amount !== '' ? Number(q.amount) : undefined, endsAt: q.ends || undefined, eventAt: q.event || undefined, models: q.models || undefined, extra: q.extra || undefined, title: q.title || undefined, location: q.location || dealer?.address || undefined },
     claims, String(rules.standardTerms ?? 'Subject to availability. Terms apply.'),
   )
   const endsAt = q.ends || ('defaults' in t ? t.defaults.endsAt : undefined)
-  return <PageView page={{ ...built, id: 0, offer: { endsAt } }} dealer={dealer} />
+  return <PageView page={{ ...built, id: 0, offer: { kind: 'type' in t ? t.type : 'offer', models: q.models || undefined, endsAt, eventAt: q.event || undefined } }} dealer={dealer} />
 }

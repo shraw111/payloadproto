@@ -9,23 +9,30 @@ const LEVELS = ['0%', '25%', '50%', '75%', '100%'] // charge gauge, decorative: 
 
 /** ctx carries the page the block sits on, for blocks that need its id or offer dates. */
 export const blockComponents: Record<string, (p: any, ctx?: { page?: any }) => React.ReactElement> = {
-  hero: (b) => (
-    <section className="hero">
-      <div className="wrap hero__inner">
-        <span className="hero__24 display" aria-hidden="true">{BRAND_WORD}</span>
-        <h1 className="display">{b.headline}</h1>
-        {b.subheadline && <p>{b.subheadline}</p>}
-        {b.ctaLabel && <a className="btn" href={b.ctaLink || '#'}>{b.ctaLabel}</a>}
-        <div className="hero__strip" aria-hidden="true">
-          <div className="strip">
-            <div className="strip__band" />
-            <div className="strip__ticks">{Array.from({ length: 21 }, (_, i) => <i key={i} />)}</div>
-          </div>
-          <div className="strip__labels">{LEVELS.map((h) => <span key={h}>{h}</span>)}</div>
+  hero: (b, ctx) => {
+    // The outlined model name and charge gauge belong to car offers only; services and events get a plain hero.
+    const kind = ctx?.page?.offer?.kind ?? 'offer'
+    const word = kind === 'offer' ? String(ctx?.page?.offer?.models ?? 'Nissan Ariya').split(' ').pop()!.toUpperCase() : null
+    return (
+      <section className="hero">
+        <div className="wrap hero__inner">
+          {word && <span className="hero__24 display" aria-hidden="true">{word}</span>}
+          <h1 className="display">{b.headline}</h1>
+          {b.subheadline && <p>{b.subheadline}</p>}
+          {b.ctaLabel && <a className="btn" href={b.ctaLink || '#'}>{b.ctaLabel}</a>}
+          {word ? (
+            <div className="hero__strip" aria-hidden="true">
+              <div className="strip">
+                <div className="strip__band" />
+                <div className="strip__ticks">{Array.from({ length: 21 }, (_, i) => <i key={i} />)}</div>
+              </div>
+              <div className="strip__labels">{LEVELS.map((h) => <span key={h}>{h}</span>)}</div>
+            </div>
+          ) : <div style={{ height: 72 }} />}
         </div>
-      </div>
-    </section>
-  ),
+      </section>
+    )
+  },
   productHighlight: (b) => (
     <section className="section product">
       <div className="wrap">
@@ -81,6 +88,6 @@ export const blockComponents: Record<string, (p: any, ctx?: { page?: any }) => R
       </div>
     </section>
   ),
-  countdown: (b, ctx) => <Countdown endsAt={ctx?.page?.offer?.endsAt} label={b.label} />,
+  countdown: (b, ctx) => <Countdown endsAt={b.target === 'event' ? ctx?.page?.offer?.eventAt : ctx?.page?.offer?.endsAt} label={b.label} />,
   leadForm: (b, ctx) => <LeadForm pageId={ctx?.page?.id} heading={b.heading} buttonLabel={b.buttonLabel} />,
 }

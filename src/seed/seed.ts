@@ -58,16 +58,20 @@ async function seed() {
   }
 
   // Other dealerships: what the HQ "exceptions" view looks like in a working network.
+  const svc = templates.find((t) => t.id === 'service-special')!
+  const evt = templates.find((t) => t.id === 'event-page')!
   const weekend = templates.find((t) => t.id === 'weekend-sale')!
   const simple = templates.find((t) => t.id === 'simple-offer')!
   const mk = async (dealer: string, name: string, tpl: typeof weekend, f: any, extra: any) => {
-    const built = tpl.build({ dealerName: name, models: 'Nissan Ariya', ...f }, claimDocs, terms)
+    const built = tpl.build({ dealerName: name, models: f.kind ? undefined : 'Nissan Ariya', ...f }, claimDocs, terms)
     if (await exists(built.slug, dealerId[dealer])) return
     await payload.create({
       collection: 'pages',
-      data: { title: built.title, slug: built.slug, dealer: dealerId[dealer], metaDescription: built.metaDescription, disclaimer: built.disclaimer, layout: built.layout, offer: { amount: f.amount, endsAt: f.endsAt, models: 'Nissan Ariya' }, ...extra } as any,
+      data: { title: built.title, slug: built.slug, dealer: dealerId[dealer], metaDescription: built.metaDescription, disclaimer: built.disclaimer, layout: built.layout, offer: { kind: f.kind ?? 'offer', title: f.title, amount: f.amount, endsAt: f.endsAt, eventAt: f.eventAt, location: f.location, models: f.kind ? undefined : 'Nissan Ariya' }, ...extra } as any,
     })
   }
+  await mk('riverside', 'Riverside Nissan', svc, { kind: 'service-special', title: 'Winter health check', amount: 0, endsAt: ahead }, { reviewStatus: 'approved', gate: { result: 'published', at: ago(1) }, _status: 'published' })
+  await mk('hillcrest', 'Hillcrest Nissan', evt, { kind: 'event', title: 'Open day', eventAt: '2026-12-05T10:00:00.000Z', endsAt: '2026-12-05T16:00:00.000Z', location: '88 Ridge Way, Hillcrest' }, { reviewStatus: 'approved', gate: { result: 'published', at: ago(1) }, _status: 'published' })
   await mk('riverside', 'Riverside Nissan', weekend, { amount: 1000, endsAt: ahead }, { reviewStatus: 'approved', gate: { result: 'published', at: ago(2) }, _status: 'published' })
   await mk('riverside', 'Riverside Nissan', simple, { amount: 3000, endsAt: ahead }, { reviewStatus: 'needs-hq', gate: { result: 'sent-to-hq', reason: 'A discount of £3,000 is above the £2,000 limit for dealers. HQ will review it.', at: ago(0) }, _status: 'draft' })
   await mk('hillcrest', 'Hillcrest Nissan', weekend, { amount: 750, endsAt: ago(4) }, { reviewStatus: 'approved', gate: { result: 'published', at: ago(9) }, _status: 'published' })

@@ -100,7 +100,10 @@ export const LeadForm: Block = {
 /** Counts down to the offer's end date (taken from the page's offer group). */
 export const Countdown: Block = {
   slug: 'countdown',
-  fields: [{ name: 'label', type: 'text' }],
+  fields: [
+    { name: 'label', type: 'text' },
+    { name: 'target', type: 'select', defaultValue: 'ends', options: [{ label: 'Offer ends', value: 'ends' }, { label: 'Event starts', value: 'event' }] },
+  ],
 }
 
 export const allBlocks: Block[] = [Hero, ProductHighlight, FeatureGrid, OfferBanner, Testimonial, Faq, Cta, LeadForm, Countdown]

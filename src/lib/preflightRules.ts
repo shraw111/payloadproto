@@ -96,39 +96,45 @@ const FINANCE = /\b(?:apr|pcp|hire purchase|deposit contribution|deposit|monthly
 const fmt = (n: number) => `£${n.toLocaleString('en-GB')}`
 
 /**
- * Rules for offer pages: amount, end date, standard terms, the dealer discount cap, finance wording.
+ * Rules for dealer pages, by content type (offer, service special, event).
  * critical blocks the publish; review sends the page to HQ.
  */
 export function runOfferRules(page: any, ctx: { maxDiscount: number; standardTerms: string; now?: Date }): Finding[] {
   const out: Finding[] = []
   const now = ctx.now ?? new Date()
   const offer = page.offer ?? {}
-  const hasOffer = !!offer.amount || (page.layout ?? []).some((b: any) => b.blockType === 'offerBanner')
+  const kind: string = offer.kind ?? 'offer'
+  const hasOffer = !!offer.amount || !!offer.kind || !!offer.endsAt || (page.layout ?? []).some((b: any) => b.blockType === 'offerBanner')
   if (!hasOffer) return out
+  const add = (f: Omit<Finding, 'source' | 'quote' | 'fix'> & Partial<Finding>) => out.push({ quote: '', fix: null, source: 'rule', ...f } as Finding)
 
-  if (!offer.endsAt)
-    out.push({ type: 'offer', severity: 'critical', path: 'offer.endsAt', quote: '', message: 'Add an end date. Every offer needs one.', fix: null, source: 'rule' })
-  else if (new Date(offer.endsAt) < now)
-    out.push({ type: 'offer', severity: 'critical', path: 'offer.endsAt', quote: '', message: 'The end date has already passed. Choose a future date.', fix: null, source: 'rule' })
+  if (!offer.endsAt) add({ type: 'offer', severity: 'critical', path: 'offer.endsAt', message: 'Add an end date. Every page needs one.' })
+  else if (new Date(offer.endsAt) < now) add({ type: 'offer', severity: 'critical', path: 'offer.endsAt', message: 'The end date has already passed. Choose a future date.' })
 
-  if (offer.amount && offer.amount > ctx.maxDiscount)
-    out.push({
-      type: 'offer', severity: 'review', path: 'offer.amount', quote: fmt(offer.amount),
-      message: `A discount of ${fmt(offer.amount)} is above the ${fmt(ctx.maxDiscount)} limit for dealers. HQ will review it.`,
-      fix: null, source: 'rule',
-    })
+  if (kind === 'offer') {
+    if (offer.amount && offer.amount > ctx.maxDiscount)
+      add({ type: 'offer', severity: 'review', path: 'offer.amount', quote: fmt(offer.amount), message: `A discount of ${fmt(offer.amount)} is above the ${fmt(ctx.maxDiscount)} limit for dealers. HQ will review it.` })
+    if (!offer.models) add({ type: 'offer', severity: 'warning', path: 'offer.models', message: 'Say which models the offer applies to.' })
+  }
+  if (kind === 'service-special') {
+    if (!offer.title) add({ type: 'offer', severity: 'critical', path: 'offer.title', message: 'Name the service.' })
+    if (offer.amount === undefined || offer.amount === null) add({ type: 'offer', severity: 'critical', path: 'offer.amount', message: 'Show the price. Free is fine, but say so.' })
+  }
+  if (kind === 'event') {
+    if (!offer.title) add({ type: 'offer', severity: 'critical', path: 'offer.title', message: 'Name the event.' })
+    if (!offer.eventAt) add({ type: 'offer', severity: 'critical', path: 'offer.eventAt', message: 'Add the event date and time.' })
+    else if (new Date(offer.eventAt) < now) add({ type: 'offer', severity: 'critical', path: 'offer.eventAt', message: 'The event date has already passed.' })
+    if (!offer.location) add({ type: 'offer', severity: 'critical', path: 'offer.location', message: 'Add where the event is.' })
+  }
 
   for (const f of flattenPage(page)) {
     const m = f.text.match(FINANCE)
     if (m && f.path !== 'disclaimer')
-      out.push({ type: 'finance', severity: 'review', path: f.path, quote: m[0], message: `Finance wording (“${m[0]}”) needs HQ review. Dealers cannot publish finance offers alone.`, fix: null, source: 'rule' })
+      add({ type: 'finance', severity: 'review', path: f.path, quote: m[0], message: `Finance wording (“${m[0]}”) needs HQ review. Dealers cannot publish finance offers alone.` })
   }
 
   const disc = ((page.disclaimer ?? '') as string).toLowerCase()
   if (!disc.includes(ctx.standardTerms.toLowerCase().replace(/\.$/, '')))
-    out.push({ type: 'terms', severity: 'critical', path: 'disclaimer', quote: '', message: `Offer pages need the standard terms: “${ctx.standardTerms}”`, fix: { replacement: ctx.standardTerms }, source: 'rule' })
-
-  if (!offer.models)
-    out.push({ type: 'offer', severity: 'warning', path: 'offer.models', quote: '', message: 'Say which models the offer applies to.', fix: null, source: 'rule' })
+    add({ type: 'terms', severity: 'critical', path: 'disclaimer', message: `Pages need the standard terms: “${ctx.standardTerms}”`, fix: { replacement: ctx.standardTerms } })
   return out
 }

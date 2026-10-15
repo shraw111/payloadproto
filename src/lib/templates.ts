@@ -1,7 +1,18 @@
-import { dateLabel, money } from './dates'
+import { dateLabel, money, priceLabel, timeLabel } from './dates'
 
 export type TemplateClaim = { claimId: string; text: string; disclaimer?: string | null }
-export type OfferFields = { dealerName: string; amount?: number; endsAt?: string; models?: string; extra?: string }
+export type ContentType = 'offer' | 'service-special' | 'event'
+export type OfferFields = {
+  dealerName: string; kind?: ContentType; amount?: number; endsAt?: string; models?: string; extra?: string
+  title?: string; location?: string; eventAt?: string
+}
+
+/** The content types HQ allows dealers to publish. The AI can only choose from this list. */
+export const contentTypes: { id: ContentType; name: string; description: string; required: string[] }[] = [
+  { id: 'offer', name: 'Offer', description: 'A discount on a model, with an end date', required: ['amount', 'endsAt', 'models'] },
+  { id: 'service-special', name: 'Service special', description: 'A service or check at a set price, with an end date', required: ['title', 'amount', 'endsAt'] },
+  { id: 'event', name: 'Event', description: 'An open day or showroom event on a set date', required: ['title', 'eventAt', 'endsAt'] },
+]
 export type BuiltPage = {
   title: string; slug: string; metaDescription: string; disclaimer: string
   layout: any[]; claimIds: string[]
@@ -37,13 +48,13 @@ function common(f: OfferFields, terms: string) {
 const lead = { blockType: 'leadForm', heading: 'Book a test drive', buttonLabel: 'Request a call back' }
 
 export type Template = {
-  id: string; name: string; bestFor: string
+  id: string; type: ContentType; name: string; bestFor: string
   build: (f: OfferFields, claims: TemplateClaim[], terms: string) => BuiltPage
 }
 
 export const templates: Template[] = [
   {
-    id: 'weekend-sale', name: 'Weekend sale', bestFor: 'Short offers with a deadline',
+    id: 'weekend-sale', type: 'offer', name: 'Weekend sale', bestFor: 'Short offers with a deadline',
     build(f, claims, terms) {
       const c = common(f, terms)
       const ids: string[] = []
@@ -58,7 +69,7 @@ export const templates: Template[] = [
     },
   },
   {
-    id: 'model-spotlight', name: 'Model spotlight', bestFor: 'Offers that feature one model',
+    id: 'model-spotlight', type: 'offer', name: 'Model spotlight', bestFor: 'Offers that feature one model',
     build(f, claims, terms) {
       const c = common(f, terms)
       const ids = ['C-01', 'C-03', 'C-12', 'C-09']
@@ -73,7 +84,7 @@ export const templates: Template[] = [
     },
   },
   {
-    id: 'simple-offer', name: 'Simple offer', bestFor: 'A quick offer with no extras',
+    id: 'simple-offer', type: 'offer', name: 'Simple offer', bestFor: 'A quick offer with no extras',
     build(f, claims, terms) {
       const c = common(f, terms)
       const layout: any[] = [
@@ -82,6 +93,62 @@ export const templates: Template[] = [
         lead,
       ]
       return { title: `${f.dealerName}: ${c.offerText}`, slug: `${c.slug}-simple`, metaDescription: c.meta, layout, claimIds: [], disclaimer: buildDisclaimer(claims, [], terms) }
+    },
+  },
+  {
+    id: 'service-special', type: 'service-special', name: 'Service special', bestFor: 'A service or check at a set price',
+    build(f, claims, terms) {
+      const title = f.title ?? 'Service special'
+      const price = priceLabel(f.amount)
+      const ends = f.endsAt ? dateLabel(f.endsAt) : 'the end date'
+      const layout: any[] = [
+        { blockType: 'hero', headline: title, subheadline: `${price} at ${f.dealerName}`, ctaLabel: 'Book a service', ctaLink: '#book' },
+        { blockType: 'offerBanner', offerText: `${title}: ${price}`, terms: `${f.dealerName}. Offer ends ${ends}. ${terms}`, ctaLabel: 'Book a service', ctaLink: '#book' },
+      ]
+      if (f.extra) layout.push({ blockType: 'productHighlight', productName: title, body: f.extra, claims: [] })
+      layout.push({ blockType: 'leadForm', heading: 'Book a service', buttonLabel: 'Request a booking' })
+      return { title: `${f.dealerName}: ${title}`, slug: kebab(`${title} ${price}`), metaDescription: `${title} for ${price.toLowerCase() === 'free' ? 'free' : price} at ${f.dealerName}. Offer ends ${ends}. Book your service today.`, layout, claimIds: [], disclaimer: buildDisclaimer(claims, [], terms) }
+    },
+  },
+  {
+    id: 'service-simple', type: 'service-special', name: 'Quick service offer', bestFor: 'The price and a booking form, nothing else',
+    build(f, claims, terms) {
+      const title = f.title ?? 'Service special'
+      const price = priceLabel(f.amount)
+      const ends = f.endsAt ? dateLabel(f.endsAt) : 'the end date'
+      const layout: any[] = [
+        { blockType: 'offerBanner', offerText: `${title}: ${price}`, terms: `${f.dealerName}. Offer ends ${ends}. ${terms}`, ctaLabel: 'Book a service', ctaLink: '#book' },
+        { blockType: 'leadForm', heading: 'Book a service', buttonLabel: 'Request a booking' },
+      ]
+      return { title: `${f.dealerName}: ${title}`, slug: `${kebab(`${title} ${price}`)}-quick`, metaDescription: `${title} for ${price.toLowerCase() === 'free' ? 'free' : price} at ${f.dealerName}. Offer ends ${ends}. Book your service today.`, layout, claimIds: [], disclaimer: buildDisclaimer(claims, [], terms) }
+    },
+  },
+  {
+    id: 'event-page', type: 'event', name: 'Event page', bestFor: 'An open day or showroom event',
+    build(f, claims, terms) {
+      const title = f.title ?? 'Event'
+      const when = f.eventAt ? `${dateLabel(f.eventAt)}, ${timeLabel(f.eventAt)}${f.endsAt ? ` to ${timeLabel(f.endsAt)}` : ''}` : 'Date to be confirmed'
+      const where = f.location ?? f.dealerName
+      const layout: any[] = [
+        { blockType: 'hero', headline: title, subheadline: `${when} · ${where}`, ctaLabel: 'Reserve your place', ctaLink: '#book' },
+        { blockType: 'countdown', label: 'Starts in', target: 'event' },
+        { blockType: 'productHighlight', productName: 'When and where', body: `${when}. ${where}.${f.extra ? ` ${f.extra}` : ''}`, claims: [] },
+        { blockType: 'leadForm', heading: 'Reserve your place', buttonLabel: 'Reserve' },
+      ]
+      return { title: `${f.dealerName}: ${title}`, slug: kebab(`${title} ${f.eventAt ? dateLabel(f.eventAt) : ''}`), metaDescription: `${title} at ${where}. ${when}. Reserve your place.`, layout, claimIds: [], disclaimer: buildDisclaimer(claims, [], terms) }
+    },
+  },
+  {
+    id: 'event-simple', type: 'event', name: 'Quick event notice', bestFor: 'The date, the place and a reservation form',
+    build(f, claims, terms) {
+      const title = f.title ?? 'Event'
+      const when = f.eventAt ? `${dateLabel(f.eventAt)}, ${timeLabel(f.eventAt)}${f.endsAt ? ` to ${timeLabel(f.endsAt)}` : ''}` : 'Date to be confirmed'
+      const where = f.location ?? f.dealerName
+      const layout: any[] = [
+        { blockType: 'offerBanner', offerText: title, terms: `${when}. ${where}.`, ctaLabel: 'Reserve your place', ctaLink: '#book' },
+        { blockType: 'leadForm', heading: 'Reserve your place', buttonLabel: 'Reserve' },
+      ]
+      return { title: `${f.dealerName}: ${title}`, slug: `${kebab(`${title} ${f.eventAt ? dateLabel(f.eventAt) : ''}`)}-notice`, metaDescription: `${title} at ${where}. ${when}. Reserve your place.`, layout, claimIds: [], disclaimer: buildDisclaimer(claims, [], terms) }
     },
   },
 ]

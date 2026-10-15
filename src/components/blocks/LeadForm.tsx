@@ -27,7 +27,7 @@ export default function LeadForm({ pageId, heading, buttonLabel }: { pageId?: st
             <label>Name<input name="name" autoComplete="name" /></label>
             <label>Phone<input name="phone" type="tel" autoComplete="tel" /></label>
             <label>Email<input name="email" type="email" autoComplete="email" /></label>
-            <label className="leadform__consent"><input name="consent" type="checkbox" /> I agree to be contacted about this offer.</label>
+            <label className="leadform__consent"><input name="consent" type="checkbox" /> I agree to be contacted about this.</label>
             {error && <p className="leadform__error" role="alert">{error}</p>}
             <button className="btn" disabled={state === 'sending'}>{state === 'sending' ? 'Sending…' : buttonLabel ?? 'Request a call back'}</button>
           </form>

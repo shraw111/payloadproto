@@ -16,7 +16,12 @@ export async function POST(req: Request) {
 
   const rules: any = await payload.findGlobal({ slug: 'brand-rules' })
   const terms = String(rules.standardTerms ?? 'Subject to availability. Terms apply.')
-  const f: OfferFields = { dealerName: dealer.name, amount: fields.amount ? Number(fields.amount) : undefined, endsAt: fields.endsAt || undefined, models: fields.models || undefined, extra: fields.extra || undefined }
+  const f: OfferFields = {
+    dealerName: dealer.name, kind: fields.kind || 'offer',
+    amount: fields.amount === '' || fields.amount === undefined || fields.amount === null ? undefined : Number(fields.amount),
+    endsAt: fields.endsAt || undefined, eventAt: fields.eventAt || undefined, models: fields.models || undefined,
+    extra: fields.extra || undefined, title: fields.title || undefined, location: fields.location || dealer.address || undefined,
+  }
 
   const kit = kitId ? campaignKits.find((k) => k.id === kitId) : null
   const tpl = !kit ? templates.find((t) => t.id === templateId) : null
@@ -34,7 +39,10 @@ export async function POST(req: Request) {
     data: {
       title: built.title, slug, dealer: dealer.id, metaDescription: built.metaDescription, disclaimer: built.disclaimer,
       layout: built.layout, reviewStatus: 'draft', gate: { result: 'none' },
-      offer: { amount: f.amount ?? defaults?.amount, endsAt: f.endsAt ?? defaults?.endsAt, models: f.models ?? defaults?.models },
+      offer: {
+        kind: tpl?.type ?? 'offer', title: f.title, amount: f.amount ?? defaults?.amount, endsAt: f.endsAt ?? defaults?.endsAt,
+        eventAt: f.eventAt, location: tpl?.type === 'event' ? f.location : undefined, models: f.models ?? defaults?.models,
+      },
     } as any,
   })
   void idByClaim
