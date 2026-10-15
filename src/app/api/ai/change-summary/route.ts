@@ -6,11 +6,15 @@ import { askJSON, backupPath } from '@/lib/claude'
 import { currentUser, loadContext } from '@/lib/context'
 import { logActivity } from '@/lib/activity'
 import { offlineSummary } from '@/lib/offlineAi'
-import { runFixedRules } from '@/lib/preflightRules'
+import { evaluatePage } from '@/lib/gate'
 
 const SYSTEM = `You write short change summaries for a compliance approver. You describe only what the diff shows. You reply with one JSON object and nothing else.`
 const LABELS: Record<string, string> = {
   'brief-to-draft': 'AI drafted the page from the brief',
+  'dealer-create': 'Page created from a template',
+  'dealer-create-kit': 'Page created from an HQ campaign',
+  'publish': 'Published by the dealer',
+  'hq-approve': 'Approved by HQ',
   'edit-everywhere': 'Content edits accepted',
   'preflight-fix': 'Pre-flight fix accepted',
   'preflight (submit)': 'Passed pre-flight and submitted for review',
@@ -26,7 +30,7 @@ const strip = (v: any): any =>
 
 export async function POST(req: Request) {
   const { id } = await req.json()
-  const { payload, claims, bannedWords } = await loadContext()
+  const { payload, claims } = await loadContext()
   const user = await currentUser(payload, req)
   const page: any = await payload.findByID({ collection: 'pages', id, draft: true })
 
@@ -37,7 +41,7 @@ export async function POST(req: Request) {
   const base = published.docs[0]?.version as any
   const keep = (p: any) => strip({ title: p.title, slug: p.slug, metaDescription: p.metaDescription, disclaimer: p.disclaimer, layout: p.layout })
   const diff = base ? jsondiffpatch.diff(keep(base), keep(page)) : null
-  const preflight = runFixedRules(page, claims, bannedWords)
+  const preflight = (await evaluatePage(page, { withAI: false })).findings
   const claimIds = claims.filter((c) => JSON.stringify(page).toLowerCase().includes(c.text.toLowerCase().replace(/\.$/, ''))).map((c) => c.claimId)
 
   const recent = await payload.find({ collection: 'ai-activity', where: { page: { equals: id } }, sort: '-createdAt', limit: 30, depth: 1 })
@@ -67,7 +71,7 @@ Return:
   await logActivity(payload, { task: 'change-summary', page: id, output: data, usedBackup, userId: user?.id })
   return NextResponse.json({
     bullets: data.bullets, usedBackup,
-    preflight: { critical: preflight.filter((f) => f.severity === 'critical').length, warnings: preflight.filter((f) => f.severity === 'warning').length },
+    preflight: { critical: preflight.filter((f) => f.severity === 'critical').length, review: preflight.filter((f) => f.severity === 'review').length, warnings: preflight.filter((f) => f.severity === 'warning').length },
     activity: recent.docs
       .filter((a: any) => LABELS[a.task] && (a.accepted || a.task === 'change-summary'))
       .reverse()

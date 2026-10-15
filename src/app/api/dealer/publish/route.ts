@@ -37,10 +37,11 @@ export async function POST(req: Request) {
     await payload.update({ ...common, data: { _status: 'published', reviewStatus: 'approved', gate: { result: 'published', reason: '', at: now } } as any })
     await logActivity(payload, { task: 'publish', page: id, accepted: true, usedBackup: gate.usedBackup, userId: user.id })
   }
+  const seconds = Math.max(1, Math.round((Date.now() - new Date(page.createdAt).getTime()) / 1000))
   const scheduled = gate.decision === 'publish' && startsAt && new Date(startsAt) > new Date()
   return NextResponse.json({
     result: gate.decision === 'publish' ? (scheduled ? 'scheduled' : 'published') : gate.decision,
-    findings: gate.findings, reason: gate.reason,
+    findings: gate.findings, reason: gate.reason, secondsSinceCreated: seconds,
     liveUrl: dealer ? `https://${dealer.domain}/${page.slug}` : null,
     path: dealer ? `/${dealer.slug}/${page.slug}` : `/page/${id}`,
   })

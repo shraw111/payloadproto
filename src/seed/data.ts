@@ -27,7 +27,17 @@ const disc = (...ids: string[]) =>
     return d === 'None' ? [] : d.split(/(?<=[.!?])\s+/)
   }))].join(' ')
 
+export const standardTerms = 'Subject to availability. Terms apply.'
+
+export const dealers = [
+  { name: 'Northgate Nissan', slug: 'northgate', domain: 'offers.northgate-nissan.example', address: '12 High Street, Northgate', phone: '01234 567890', hours: 'Mon–Sat 9am–6pm' },
+  { name: 'Riverside Nissan', slug: 'riverside', domain: 'offers.riverside-nissan.example', address: '4 Quay Road, Riverside', phone: '01234 222333', hours: 'Mon–Sat 8.30am–6pm' },
+  { name: 'Hillcrest Nissan', slug: 'hillcrest', domain: 'offers.hillcrest-nissan.example', address: '88 Ridge Way, Hillcrest', phone: '01234 444555', hours: 'Mon–Sun 9am–5pm' },
+]
+
 export const brandRules = {
+  maxDealerDiscount: 2000,
+  standardTerms,
   tone: 'Confident, calm and clear. Speak to the reader as "you". Short sentences. Facts before adjectives.',
   readingAge: '10 to 12',
   bannedWords: ['best', 'revolutionary', 'unbeatable', 'guaranteed', 'miracle', 'cheapest'],
@@ -40,15 +50,16 @@ export const brandRules = {
 
 const offer = (cta: string) => ({
   blockType: 'offerBanner', offerText: '£1,500 charging credit with every new Ariya',
-  terms: 'Retail customers only. Spring offer ends 31 May.', ctaLabel: cta, ctaLink: '/ariya',
+  terms: 'Retail customers only. Autumn offer ends 31 October.', ctaLabel: cta, ctaLink: '/ariya',
 })
 
 // claimIds are claim ids like C-03; the seed script resolves them to relationship ids.
 export const pages = [
   {
-    title: 'Home', slug: 'home',
+    title: 'Offers home', slug: 'home',
+    offer: { amount: 1500, endsAt: '2026-10-31T23:59:00.000Z', models: 'Nissan Ariya' },
     metaDescription: 'The Nissan Ariya is an electric crossover with zero tailpipe emissions. £1,500 charging credit with every new Ariya.',
-    disclaimer: disc('C-03'),
+    disclaimer: `${disc('C-03')} ${standardTerms}`,
     layout: [
       { blockType: 'hero', headline: 'Electric, made for every day', subheadline: 'Zero tailpipe emissions.', ctaLabel: 'Explore Ariya', ctaLink: '/ariya' },
       { blockType: 'productHighlight', productName: 'Nissan Ariya', body: 'Seats five. 466 litres of boot space with the seats up.', claimIds: ['C-05', 'C-06'] },
@@ -56,13 +67,15 @@ export const pages = [
         { text: 'Rapid charging from 0 to 80% in as little as 35 minutes.' }, { text: 'Choice of 63kWh or 87kWh battery.' }, { text: 'Heat pump fitted as standard.' } ] },
       offer('View offers'),
       { blockType: 'testimonial', layout: 'card', quote: 'I charge it overnight and forget the petrol station exists.', name: 'Dana', role: 'daily commuter' },
+      { blockType: 'leadForm', heading: 'Book a test drive', buttonLabel: 'Request a call back' },
       { blockType: 'cta', heading: 'Ready to go electric?', buttonLabel: 'Book a test drive', buttonLink: '/ariya' },
     ],
   },
   {
-    title: 'Nissan Ariya', slug: 'ariya',
+    title: 'Ariya offer', slug: 'ariya',
+    offer: { amount: 1500, endsAt: '2026-10-31T23:59:00.000Z', models: 'Nissan Ariya' },
     metaDescription: 'Meet the Nissan Ariya: up to 329 miles of range (WLTP, 87kWh Advance) and £1,500 charging credit with every new Ariya.',
-    disclaimer: disc('C-02', 'C-04', 'C-13', 'C-14', 'C-10', 'C-11'),
+    disclaimer: `${disc('C-02', 'C-04', 'C-13', 'C-14', 'C-10', 'C-11')} ${standardTerms}`,
     layout: [
       { blockType: 'hero', headline: 'Room to go the distance', subheadline: 'Up to 329 miles of range (WLTP, 87kWh Advance).', ctaLabel: 'Book a test drive', ctaLink: '/ariya' },
       { blockType: 'productHighlight', productName: 'Nissan Ariya', body: 'ProPILOT Assist can help to make your drive feel smooth. Maximum DC charging power of 130 kW.', claimIds: ['C-04', 'C-13'] },
@@ -72,19 +85,22 @@ export const pages = [
         { question: 'Can I power devices from the car?', answer: 'Vehicle-to-load lets you power devices from the battery.' } ] },
       offer('View offers'),
       { blockType: 'testimonial', layout: 'quote', quote: 'Easy to live with, and charging at home just works.', name: 'Marcus', role: 'architect' },
+      { blockType: 'leadForm', heading: 'Book a test drive', buttonLabel: 'Request a call back' },
       { blockType: 'cta', heading: 'Find your Ariya', buttonLabel: 'Book a test drive', buttonLink: '/ariya' },
     ],
   },
   {
-    title: 'Spring campaign', slug: 'spring',
-    metaDescription: 'Spring is the season to switch. Drive the Nissan Ariya with zero tailpipe emissions and get £1,500 charging credit with every new Ariya.',
-    disclaimer: disc('C-14', 'C-08', 'C-10'),
+    title: 'Autumn campaign', slug: 'autumn',
+    offer: { amount: 1500, endsAt: '2026-10-31T23:59:00.000Z', models: 'Nissan Ariya' },
+    metaDescription: 'Autumn is the season to switch. Drive the Nissan Ariya with zero tailpipe emissions and get £1,500 charging credit with every new Ariya.',
+    disclaimer: `${disc('C-14', 'C-08', 'C-10')} ${standardTerms}`,
     layout: [
-      { blockType: 'hero', headline: 'Spring is the season to switch', subheadline: 'Zero tailpipe emissions.', ctaLabel: 'Book a test drive', ctaLink: '/ariya' },
+      { blockType: 'hero', headline: 'Autumn is the season to switch', subheadline: 'Zero tailpipe emissions.', ctaLabel: 'Book a test drive', ctaLink: '/ariya' },
       offer('Claim your £1,500'),
-      { blockType: 'featureGrid', heading: 'Spring, sorted', items: [
+      { blockType: 'featureGrid', heading: 'Autumn, sorted', items: [
         { text: 'Charge at home overnight with a home wall box.' }, { text: 'Charges from 10 to 100% in 6 hours 30 minutes at home.' }, { text: 'Battery warranty of 8 years or 100,000 miles, whichever comes first.' } ] },
-      { blockType: 'cta', heading: 'Spring test drives are open', buttonLabel: 'Book a test drive', buttonLink: '/ariya' },
+      { blockType: 'leadForm', heading: 'Book a test drive', buttonLabel: 'Request a call back' },
+      { blockType: 'cta', heading: 'Autumn test drives are open', buttonLabel: 'Book a test drive', buttonLink: '/ariya' },
     ],
   },
 ]

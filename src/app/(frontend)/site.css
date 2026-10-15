@@ -94,3 +94,26 @@ body { margin: 0; background: var(--paper); color: var(--ink); font: 400 18px/1.
 .prompt__row { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
 .prompt__attach { border: 1px dashed var(--brand); color: var(--brand); background: none; border-radius: 8px; padding: 10px 14px; font: 600 14px var(--sans); cursor: pointer; }
 .prompt__hint { margin-top: 16px; background: none; border: 0; color: var(--brand); text-decoration: underline; font: 400 15px var(--sans); cursor: pointer; text-align: left; }
+
+/* Dealer pages */
+.dealerbar { background: var(--ink); color: #fff; font-size: 14px; padding: 10px 0; }
+.dealerbar .wrap { display: flex; gap: 16px; flex-wrap: wrap; align-items: baseline; }
+.dealerbar span { opacity: .75; }
+.countdown { background: var(--ink); color: #fff; padding: 28px 0; text-align: center; }
+.countdown .eyebrow { color: #ffffffb3; }
+.countdown__row { display: flex; justify-content: center; gap: 28px; margin-top: 10px; }
+.countdown__row div { display: flex; flex-direction: column; min-width: 64px; }
+.countdown__row b { font: 800 44px/1 var(--serif); font-stretch: 112%; font-variant-numeric: tabular-nums; }
+.countdown__row span { font: 500 11px var(--mono); letter-spacing: .1em; text-transform: uppercase; opacity: .7; margin-top: 6px; }
+.leadform { background: var(--tint); padding: 64px 0; }
+.leadform__inner { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+.leadform h2 { font-size: clamp(28px, 4vw, 44px); }
+.leadform form { display: grid; gap: 14px; }
+.leadform label { display: grid; gap: 6px; font-weight: 600; font-size: 15px; }
+.leadform input:not([type=checkbox]) { padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; font: inherit; background: #fff; }
+.leadform__consent { display: flex !important; gap: 10px; font-weight: 400 !important; align-items: center; }
+.leadform__error { color: var(--brand); margin: 0; }
+.leadform__thanks { font-size: 22px; margin: 0; }
+.leadform .btn { border: 0; cursor: pointer; font-size: 16px; justify-self: start; }
+.ended { padding: 96px 0; text-align: center; }
+@media (max-width: 800px) { .leadform__inner { grid-template-columns: 1fr; } }

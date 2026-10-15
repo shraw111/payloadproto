@@ -51,3 +51,11 @@ Return:
     kits: campaignKits.map((k) => ({ id: k.id, name: k.name, summary: k.summary })),
   })
 }
+
+export async function GET(req: Request) {
+  const { payload } = await loadContext()
+  const user = await requireUser(payload, req)
+  if (!user) return NextResponse.json({ error: 'Sign in first' }, { status: 401 })
+  const dealer = await actingDealer(payload, user)
+  return NextResponse.json({ dealer: dealer && { id: dealer.id, name: dealer.name, slug: dealer.slug, domain: dealer.domain }, kits: campaignKits.map((k) => ({ id: k.id, name: k.name, summary: k.summary })) })
+}

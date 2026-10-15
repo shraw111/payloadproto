@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { askJSON, backupPath } from '@/lib/claude'
 import { currentUser, loadContext } from '@/lib/context'
 import { logActivity } from '@/lib/activity'
+import { dealerIdOf } from '@/lib/access'
 import { offlineEdits } from '@/lib/offlineAi'
 import { flattenPage, getAtPath, setAtPath, type FlatField } from '@/lib/flatten'
 
@@ -19,8 +20,9 @@ const Changes = z.object({
   })),
 })
 
-async function allPages(payload: any) {
-  return (await payload.find({ collection: 'pages', limit: 100, draft: true, pagination: false })).docs as any[]
+async function allPages(payload: any, user: any) {
+  const where = user?.role === 'dealer' ? { dealer: { equals: dealerIdOf(user) } } : undefined
+  return (await payload.find({ collection: 'pages', limit: 100, draft: true, pagination: false, where })).docs as any[]
 }
 
 /** Step 1: propose changes (nothing is saved). Step 2 (action: "apply"): save the accepted ones as drafts. */
@@ -28,7 +30,7 @@ export async function POST(req: Request) {
   const body = await req.json()
   const { payload } = await loadContext()
   const user = await currentUser(payload, req)
-  const pages = await allPages(payload)
+  const pages = await allPages(payload, user)
 
   if (body.action === 'apply') {
     const accepted = body.changes as z.infer<typeof Changes>['changes']
@@ -45,7 +47,7 @@ export async function POST(req: Request) {
       await payload.update({ collection: 'pages', id, data, draft: true })
       await logActivity(payload, { task: 'edit-everywhere', page: id, inputSummary: body.instruction, output: changes, accepted: true, userId: user?.id })
     }
-    return NextResponse.json({ updated: byPage.size })
+    return NextResponse.json({ updated: byPage.size, ids: [...byPage.keys()] })
   }
 
   const flat: FlatField[] = pages.flatMap(flattenPage)

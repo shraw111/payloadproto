@@ -1,10 +1,14 @@
 import React from 'react'
 
+import Countdown from './Countdown'
+import LeadForm from './LeadForm'
+
 /* Renderers for the demo design. Class names live in app/(frontend)/site.css. */
 const BRAND_WORD = 'ARIYA' // vehicle name set in the hero; part of the demo design
 const LEVELS = ['0%', '25%', '50%', '75%', '100%'] // charge gauge, decorative: no range or time is claimed
 
-export const blockComponents: Record<string, (p: any) => React.ReactElement> = {
+/** ctx carries the page the block sits on, for blocks that need its id or offer dates. */
+export const blockComponents: Record<string, (p: any, ctx?: { page?: any }) => React.ReactElement> = {
   hero: (b) => (
     <section className="hero">
       <div className="wrap hero__inner">
@@ -77,4 +81,6 @@ export const blockComponents: Record<string, (p: any) => React.ReactElement> = {
       </div>
     </section>
   ),
+  countdown: (b, ctx) => <Countdown endsAt={ctx?.page?.offer?.endsAt} label={b.label} />,
+  leadForm: (b, ctx) => <LeadForm pageId={ctx?.page?.id} heading={b.heading} buttonLabel={b.buttonLabel} />,
 }

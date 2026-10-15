@@ -1,30 +1,19 @@
 import { NextResponse } from 'next/server'
-import { z } from 'zod'
 
-import { askJSON, backupPath } from '@/lib/claude'
 import { currentUser, loadContext } from '@/lib/context'
+import { canTouch } from '@/lib/dealer'
 import { logActivity } from '@/lib/activity'
-import { flattenPage, getAtPath, setAtPath } from '@/lib/flatten'
-import { dedupe, runFixedRules, type Finding } from '@/lib/preflightRules'
+import { evaluatePage } from '@/lib/gate'
+import { getAtPath, setAtPath } from '@/lib/flatten'
+import type { Finding } from '@/lib/preflightRules'
 
-const SYSTEM = `You pre-check vehicle web pages before human compliance review. You flag problems and suggest fixes; you never approve anything. You reply with one JSON object and nothing else.`
-
-const AiFindings = z.object({
-  findings: z.array(z.object({
-    type: z.string(),
-    severity: z.enum(['critical', 'warning']),
-    path: z.string(),
-    quote: z.string(),
-    message: z.string(),
-    fix: z.object({ replacement: z.string(), claimId: z.string().optional() }).nullable().optional(),
-  })),
-})
-
+/** Pre-flight check, and one-click fixes. Publishing itself happens in /api/dealer/publish, which uses the same gate. */
 export async function POST(req: Request) {
   const { id, action = 'check', finding } = await req.json()
-  const { payload, claims, bannedWords, brandRules, claimsList } = await loadContext()
-  const user = await currentUser(payload, req)
-  const page: any = await payload.findByID({ collection: 'pages', id, draft: true })
+  const { payload, claims } = await loadContext()
+  const user: any = await currentUser(payload, req)
+  const page: any = await payload.findByID({ collection: 'pages', id, draft: true, depth: 0 })
+  if (user && !canTouch(user, page)) return NextResponse.json({ error: 'Not your page' }, { status: 403 })
 
   if (action === 'apply' && finding) {
     const f = finding as Finding
@@ -44,41 +33,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true })
   }
 
-  const flat = flattenPage(page)
-  const rules = runFixedRules(page, claims, bannedWords)
-  const { data, usedBackup } = await askJSON({
-    system: SYSTEM,
-    user: `Approved claims (id: claim | required disclaimer):
-${claimsList}
-
-Brand voice: ${brandRules}
-
-Page fields, each with its path:
-${flat.map((f) => JSON.stringify({ path: f.path, text: f.text })).join('\n')}
-
-Find:
-1. Any statement about the product's effect, speed, safety or comparison with other products that is not an approved claim, word for word or in meaning. Severity: critical. Suggest the closest approved claim as the replacement and give its id; if none fits, set fix to null.
-2. Any sentence that breaks the brand voice. Severity: warning. Suggest a rewrite.
-
-Do not flag approved claims that are used correctly. Quote the exact text you flag.
-
-Return:
-{ "findings": [{ "type": "unapproved_claim", "severity": "critical", "path": "", "quote": "",
-  "message": "", "fix": { "replacement": "", "claimId": "C-02" } }] }`,
-    schema: AiFindings,
-    backup: backupPath('preflight.json'),
-  })
-
-  // Only keep AI findings whose quote really is on the page.
-  const aiFindings: Finding[] = data.findings
-    .filter((f) => !f.quote || String(getAtPath(page, f.path) ?? '').includes(f.quote))
-    .map((f) => ({ ...f, type: (f.type as Finding['type']) || 'voice', fix: f.fix ?? null, source: 'ai' as const }))
-  const findings = dedupe([...rules, ...aiFindings])
-
-  const critical = findings.filter((f) => f.severity === 'critical').length
-  if (action === 'submit' && critical === 0) {
-    await payload.update({ collection: 'pages', id, data: { reviewStatus: 'in-review' } as any, draft: true })
-  }
-  await logActivity(payload, { task: `preflight (${action})`, page: id, output: { critical, total: findings.length }, accepted: action === 'submit' && critical === 0, usedBackup, userId: user?.id })
-  return NextResponse.json({ findings, critical, submitted: action === 'submit' && critical === 0, usedBackup })
+  const gate = await evaluatePage(page)
+  await logActivity(payload, { task: 'preflight-check', page: id, output: { critical: gate.critical, review: gate.review, total: gate.findings.length }, usedBackup: gate.usedBackup, userId: user?.id })
+  return NextResponse.json({ findings: gate.findings, critical: gate.critical, review: gate.review, decision: gate.decision, usedBackup: gate.usedBackup })
 }
