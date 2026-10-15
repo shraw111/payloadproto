@@ -6,6 +6,6 @@ export const Media: CollectionConfig = {
   slug: 'media',
   admin: { hidden: hiddenFromDealers },
   access: { read: () => true },
-  upload: { staticDir: 'media' },
+  upload: { staticDir: process.env.MEDIA_DIR || 'media' },
   fields: [{ name: 'alt', type: 'text' }],
 }

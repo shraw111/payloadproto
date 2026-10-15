@@ -9,6 +9,10 @@
     "seed:after": "dotenv -e .env.after -- payload run src/seed/seed.ts",
     "reset": "cp demo/after.seed.db after.db && cp demo/before.seed.db before.db",
     "generate:importmap": "payload generate:importmap",
+    "build": "next build",
+    "start": "bash scripts/start.sh",
+    "migrate": "payload migrate",
+    "migrate:create": "payload migrate:create",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

@@ -19,7 +19,10 @@ const after = process.env.DEMO_STAGE === 'after'
 // "before" = studio + empty CMS; "after" = the generated content model.
 export default buildConfig({
   secret: process.env.PAYLOAD_SECRET || 'dev-secret',
-  db: sqliteAdapter({ client: { url: process.env.DATABASE_URI || 'file:./after.db' } }),
+  // Development pushes schema changes automatically. Production never does: it runs the committed
+  // migrations in src/migrations (`npm run migrate` on start). After changing a collection, run
+  // `npm run migrate:create -- <name>` and commit the new migration.
+  db: sqliteAdapter({ client: { url: process.env.DATABASE_URI || 'file:./after.db' }, migrationDir: path.resolve(dirname, 'migrations') }),
   editor: lexicalEditor(),
   collections: after ? [Users, Media, Dealers, Pages, Leads, Claims, AiActivity] : [Users, Media],
   globals: after ? [BrandRules] : [],

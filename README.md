@@ -46,6 +46,30 @@ Logins (password `demo1234`): `demo@studio.test` (HQ), `dealer@studio.test` (Nor
 The prototype measures three real numbers: time from creating a page to live, how many pages needed HQ, and enquiries per dealer.
 Not in the prototype: CRM/DMS integration, stock and price feeds, ad platforms, SSO, a claims-library editor beyond Payload's own admin.
 
+## Deploy to Railway
+
+One container: Next.js with Payload inside, SQLite on a Railway **Volume**. The `Dockerfile` and `railway.json` are in the repo.
+
+1. New Railway project, deploy from this GitHub repo and branch.
+2. Add a **Volume** mounted at `/data`.
+3. Set variables:
+
+| Variable | Value |
+| --- | --- |
+| `DEMO_STAGE` | `after` |
+| `DATABASE_URI` | `file:/data/app.db` |
+| `MEDIA_DIR` | `/data/media` |
+| `PAYLOAD_SECRET` | a long random string |
+| `SEED_PASSWORD` | password for the two seeded logins (`demo@studio.test` HQ, `dealer@studio.test` dealer) |
+| `ANTHROPIC_API_KEY`, `DEMO_AI` | optional. Without a key the AI steps run in the rule-based stored mode |
+| `APP_URL` | optional. Railway's public domain is used if unset |
+
+4. Generate a public domain. Health check: `/api/hq/summary`.
+
+On start the container applies the migrations in `src/migrations`, seeds the demo content **once** (a `.seeded` marker lives on the volume, so restarts never overwrite changes made in the admin), then serves on `$PORT`.
+
+After changing a collection or field: `npm run migrate:create -- <name>` and commit the new migration. Production never pushes schema changes by itself.
+
 ## Scenes ↔ code
 | Scene | Where |
 | --- | --- |

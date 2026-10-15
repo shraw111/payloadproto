@@ -11,3 +11,5 @@ src/payload-types.ts
 tsconfig.tsbuildinfo
 next-env.d.ts
 !demo/*.seed.db
+
+data/

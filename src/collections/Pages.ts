@@ -3,13 +3,17 @@ import type { CollectionConfig } from 'payload'
 import { allBlocks } from '../blocks'
 import { dealerIdOf, dealerScoped } from '../lib/access'
 
+/** Public address of this app: APP_URL, else Railway's domain, else local dev. Read at runtime, never baked into the build. */
+const appUrl = () =>
+  process.env.APP_URL || (process.env.RAILWAY_PUBLIC_DOMAIN ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}` : 'http://localhost:3001')
+
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'dealer', 'reviewStatus', '_status'],
     livePreview: {
-      url: ({ data }) => `${process.env.NEXT_PUBLIC_SELF_URL || 'http://localhost:3001'}/page/${data?.id ?? 0}?draft=1`,
+      url: ({ data }) => `${appUrl()}/page/${data?.id ?? 0}?draft=1`,
     },
   },
   versions: { drafts: true, maxPerDoc: 25 },

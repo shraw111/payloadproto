@@ -33,10 +33,14 @@ async function seed() {
     dealerId[d.slug] = (found.docs[0] ?? (await payload.create({ collection: 'dealers', data: d }))).id
   }
 
+  // Logins come from the environment so a public deployment never ships a known password.
+  const password = process.env.SEED_PASSWORD || 'demo1234'
+  const hqEmail = process.env.SEED_HQ_EMAIL || 'demo@studio.test'
+  const dealerEmail = process.env.SEED_DEALER_EMAIL || 'dealer@studio.test'
   const users = await payload.find({ collection: 'users', limit: 1 })
   if (!users.totalDocs) {
-    await payload.create({ collection: 'users', data: { email: 'demo@studio.test', password: 'demo1234', name: 'HQ brand team', role: 'hq' } as any })
-    await payload.create({ collection: 'users', data: { email: 'dealer@studio.test', password: 'demo1234', name: 'Sam, Northgate Nissan', role: 'dealer', dealer: dealerId.northgate } as any })
+    await payload.create({ collection: 'users', data: { email: hqEmail, password, name: 'HQ brand team', role: 'hq' } as any })
+    await payload.create({ collection: 'users', data: { email: dealerEmail, password, name: 'Sam, Northgate Nissan', role: 'dealer', dealer: dealerId.northgate } as any })
   }
 
   const exists = async (slug: string, dealer: string | number) =>

@@ -1,0 +1,12 @@
+node_modules
+.next
+.next-after
+.git
+*.db
+*.db-shm
+*.db-wal
+media
+.env*
+!.env.example
+docs
+demo/stored/thumbnails
