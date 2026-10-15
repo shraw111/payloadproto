@@ -2,8 +2,9 @@ import type { Claim } from './context'
 import { flattenPage, type FlatField } from './flatten'
 
 export type Finding = {
-  type: 'unapproved_claim' | 'missing_disclaimer' | 'banned_word' | 'meta_length' | 'voice'
-  severity: 'critical' | 'warning'
+  type: 'unapproved_claim' | 'missing_disclaimer' | 'banned_word' | 'meta_length' | 'voice' | 'offer' | 'finance' | 'terms'
+  /** critical = blocks publishing; review = needs HQ (goes to HQ, not blocked for good); warning = advice only */
+  severity: 'critical' | 'review' | 'warning'
   path: string
   quote: string
   message: string
@@ -12,12 +13,13 @@ export type Finding = {
 }
 
 /** Phrases that are always critical. The planted brief claim ("goes further than any other electric SUV") lives here so it is caught even if the AI wobbles. */
-const RISKY: { re: RegExp; label: string; lead: string }[] = [
+const RISKY: { re: RegExp; label: string; lead: string; noFix?: boolean }[] = [
   { re: /goes\s+(?:further|farther) than [^,.;]+/i, label: 'further than', lead: 'offers ' },
   { re: /(?:has|offers) the (?:longest|best) range[^,.;]*/i, label: 'longest range', lead: 'offers ' },
   { re: /(?:is |are )?(?:faster|quicker|cheaper|safer) than [^,.;]+/i, label: 'comparison', lead: 'offers ' },
-  { re: /best[- ]in[- ]class/i, label: 'best in class', lead: '' },
-  { re: /\bguaranteed?\b[^,.;]*/i, label: 'guaranteed', lead: '' },
+  { re: /best[- ]in[- ]class/i, label: 'best in class', lead: '', noFix: true },
+  { re: /\b(?:best|lowest|cheapest|unbeatable) prices?\b[^,.;]*/i, label: 'best price', lead: '', noFix: true },
+  { re: /\bguaranteed?\b[^,.;]*/i, label: 'guaranteed', lead: '', noFix: true },
 ]
 
 const lower = (s: string) => s.charAt(0).toLowerCase() + s.slice(1).replace(/\.$/, '')
@@ -45,8 +47,8 @@ export function runFixedRules(
       if (!m) continue
       findings.push({
         type: 'unapproved_claim', severity: 'critical', path: f.path, quote: m[0],
-        message: `"${m[0]}" is not an approved claim. Comparisons with other vehicles are not allowed.`,
-        fix: c02 ? { replacement: r.lead + lower(c02.text), claimId: c02.claimId } : null,
+        message: `"${m[0]}" is not an approved claim. Comparisons and price superlatives are not allowed.`,
+        fix: c02 && !r.noFix ? { replacement: r.lead + lower(c02.text), claimId: c02.claimId } : null,
         source: 'rule',
       })
     }
@@ -88,3 +90,45 @@ export function dedupe(findings: Finding[]): Finding[] {
 }
 
 export type { FlatField }
+
+
+const FINANCE = /\b(?:apr|pcp|hire purchase|deposit contribution|deposit|monthly payments?|per month|a month|\/month|0%\s*finance|finance (?:offer|deal|available))\b/i
+const fmt = (n: number) => `£${n.toLocaleString('en-GB')}`
+
+/**
+ * Rules for offer pages: amount, end date, standard terms, the dealer discount cap, finance wording.
+ * critical blocks the publish; review sends the page to HQ.
+ */
+export function runOfferRules(page: any, ctx: { maxDiscount: number; standardTerms: string; now?: Date }): Finding[] {
+  const out: Finding[] = []
+  const now = ctx.now ?? new Date()
+  const offer = page.offer ?? {}
+  const hasOffer = !!offer.amount || (page.layout ?? []).some((b: any) => b.blockType === 'offerBanner')
+  if (!hasOffer) return out
+
+  if (!offer.endsAt)
+    out.push({ type: 'offer', severity: 'critical', path: 'offer.endsAt', quote: '', message: 'Add an end date. Every offer needs one.', fix: null, source: 'rule' })
+  else if (new Date(offer.endsAt) < now)
+    out.push({ type: 'offer', severity: 'critical', path: 'offer.endsAt', quote: '', message: 'The end date has already passed. Choose a future date.', fix: null, source: 'rule' })
+
+  if (offer.amount && offer.amount > ctx.maxDiscount)
+    out.push({
+      type: 'offer', severity: 'review', path: 'offer.amount', quote: fmt(offer.amount),
+      message: `A discount of ${fmt(offer.amount)} is above the ${fmt(ctx.maxDiscount)} limit for dealers. HQ will review it.`,
+      fix: null, source: 'rule',
+    })
+
+  for (const f of flattenPage(page)) {
+    const m = f.text.match(FINANCE)
+    if (m && f.path !== 'disclaimer')
+      out.push({ type: 'finance', severity: 'review', path: f.path, quote: m[0], message: `Finance wording (“${m[0]}”) needs HQ review. Dealers cannot publish finance offers alone.`, fix: null, source: 'rule' })
+  }
+
+  const disc = ((page.disclaimer ?? '') as string).toLowerCase()
+  if (!disc.includes(ctx.standardTerms.toLowerCase().replace(/\.$/, '')))
+    out.push({ type: 'terms', severity: 'critical', path: 'disclaimer', quote: '', message: `Offer pages need the standard terms: “${ctx.standardTerms}”`, fix: { replacement: ctx.standardTerms }, source: 'rule' })
+
+  if (!offer.models)
+    out.push({ type: 'offer', severity: 'warning', path: 'offer.models', quote: '', message: 'Say which models the offer applies to.', fix: null, source: 'rule' })
+  return out
+}

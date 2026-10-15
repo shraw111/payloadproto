@@ -6,6 +6,8 @@ import { buildConfig } from 'payload'
 
 import { AiActivity } from './collections/AiActivity'
 import { Claims } from './collections/Claims'
+import { Dealers } from './collections/Dealers'
+import { Leads } from './collections/Leads'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Users } from './collections/Users'
@@ -19,14 +21,14 @@ export default buildConfig({
   secret: process.env.PAYLOAD_SECRET || 'dev-secret',
   db: sqliteAdapter({ client: { url: process.env.DATABASE_URI || 'file:./after.db' } }),
   editor: lexicalEditor(),
-  collections: after ? [Users, Media, Pages, Claims, AiActivity] : [Users, Media],
+  collections: after ? [Users, Media, Dealers, Pages, Leads, Claims, AiActivity] : [Users, Media],
   globals: after ? [BrandRules] : [],
   admin: {
     user: Users.slug,
     importMap: { baseDir: path.resolve(dirname) },
     components: after
       ? {
-          beforeDashboard: ['/admin/AssistantPanel'],
+          beforeDashboard: ['/admin/DashboardSwitch'],
           views: { review: { Component: '/admin/ReviewQueue', path: '/review' } },
         }
       : {},

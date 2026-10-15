@@ -1,8 +1,10 @@
 import type { CollectionConfig } from 'payload'
 
+import { hiddenFromDealers } from '../lib/access'
+
 export const Claims: CollectionConfig = {
   slug: 'claims',
-  admin: { useAsTitle: 'claimId', defaultColumns: ['claimId', 'text', 'disclaimer'] },
+  admin: { useAsTitle: 'claimId', hidden: hiddenFromDealers, defaultColumns: ['claimId', 'text', 'disclaimer'] },
   access: { read: () => true },
   fields: [
     { name: 'claimId', type: 'text', required: true, unique: true },

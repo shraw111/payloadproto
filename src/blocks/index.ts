@@ -89,4 +89,18 @@ export const Cta: Block = {
   ],
 }
 
-export const allBlocks: Block[] = [Hero, ProductHighlight, FeatureGrid, OfferBanner, Testimonial, Faq, Cta]
+export const LeadForm: Block = {
+  slug: 'leadForm',
+  fields: [
+    { name: 'heading', type: 'text', required: true },
+    { name: 'buttonLabel', type: 'text' },
+  ],
+}
+
+/** Counts down to the offer's end date (taken from the page's offer group). */
+export const Countdown: Block = {
+  slug: 'countdown',
+  fields: [{ name: 'label', type: 'text' }],
+}
+
+export const allBlocks: Block[] = [Hero, ProductHighlight, FeatureGrid, OfferBanner, Testimonial, Faq, Cta, LeadForm, Countdown]

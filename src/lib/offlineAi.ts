@@ -95,6 +95,7 @@ export function offlineBriefToDraft(brief: string, claims: Claim[]) {
 }
 
 /* ---------- edit everywhere ---------- */
+export const MONEY_RE = /[£$€]\s?\d[\d,]*(?:\.\d+)?/
 const MONEY = /[£$€]\s?\d[\d,]*(?:\.\d+)?/g
 const PERCENT = /\d+(?:\.\d+)?\s?%/g
 
