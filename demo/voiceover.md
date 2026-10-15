@@ -1,6 +1,6 @@
 # Voice-over script (dealer one-click publish)
 
-One story: HQ sets the rules, Sam (a dealer) publishes offers, HQ looks only at exceptions. Scene 0 (title card) has no voice-over. The synthetic track is read from exactly this text; replace it with your own narration if you prefer.
+One story: HQ sets the rules, Sam (a dealer) publishes pages, HQ looks only at exceptions. Scene 0 (title card) has no voice-over. The synthetic track is read from exactly this text; replace it with your own narration if you prefer.
 
 ## Scene 1: HQ sets the rules
 
@@ -8,7 +8,7 @@ Nissan's brand team sets the rules once. The approved claims. The largest discou
 
 ## Scene 2: The dealer's start screen
 
-Meet Sam, at Northgate Nissan. Sam does not see a complicated CMS. Just one question: what is your offer? Or, start from a campaign that head office has already prepared.
+Meet Sam, at Northgate Nissan. Sam does not see a complicated CMS. Just one question: what do you want to publish? An offer, a service special, an event. Sam says it in plain words, and the tool works out which one it is, then suggests page designs.
 
 ## Scene 3: Change the offer on all pages
 
@@ -16,7 +16,7 @@ First, the offer is changing on all of Sam's pages. One instruction, and the AI 
 
 ## Scene 4: A new offer: pick, check, publish
 
-Now a new idea. Sam types it in plain words: a weekend offer, a thousand pounds off the Ariya, and a line about range. The AI suggests three page designs from head office's approved templates, already filled in. Sam picks one. Then Publish. Pre-flight stops it. The line that the Ariya goes further than any other electric SUV is a comparison nobody has approved. One click swaps in the approved range claim, with its disclaimer. Publish again, and it is live.
+Now a new idea. Sam types it in plain words: a weekend offer, a thousand pounds off the Ariya, and a line about range. The tool understands it is an offer, and suggests three page designs from head office's approved templates, already filled in. Sam picks one. Then Publish. Pre-flight stops it. The line that the Ariya goes further than any other electric SUV is a comparison nobody has approved. One click swaps in the approved range claim, with its disclaimer. Publish again, and it is live.
 
 ## Scene 5: The live page and a lead
 
