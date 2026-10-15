@@ -6,7 +6,7 @@ import { BRAND, card, eyebrow } from './ui'
 type S = { published: number; blocked: number; waiting: number; expired: number }
 
 /** HQ at a glance. Most pages publish on their own; only the exceptions need a person. */
-export default function HqSummary() {
+export default function HqSummary({ showLink = true }: { showLink?: boolean }) {
   const [s, setS] = useState<S | null>(null)
   useEffect(() => { fetch('/api/hq/summary').then((r) => r.json()).then(setS).catch(() => {}) }, [])
   const tile = (n: number | string, label: string, hot = false) => (
@@ -24,7 +24,7 @@ export default function HqSummary() {
         {tile(s?.blocked ?? '–', 'blocked, dealer fixing', true)}
         {tile(s?.expired ?? '–', 'ended')}
       </div>
-      <a href="/admin/review">Open exceptions →</a>
+      {showLink && <a href="/admin/review">Open exceptions →</a>}
     </div>
   )
 }

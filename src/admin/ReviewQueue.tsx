@@ -29,7 +29,7 @@ export default async function ReviewQueue({ initPageResult, params, searchParams
       <Gutter>
         <h1>Exceptions</h1>
         <p>Pages that pass pre-flight go live on their own. Only these need a person.</p>
-        <HqSummary />
+        <HqSummary showLink={false} />
         {waiting.length === 0 && blocked.length === 0 && <p>Nothing needs attention.</p>}
         {[...waiting, ...blocked].map((p) => (
           <ReviewItem key={p.id} id={p.id} title={p.title} dealer={p.dealer?.name ?? 'HQ'} result={p.gate.result} reason={p.gate.reason ?? ''} />

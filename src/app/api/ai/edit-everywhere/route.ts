@@ -42,8 +42,12 @@ export async function POST(req: Request) {
     }
     for (const [id, changes] of byPage) {
       const page = pages.find((p) => String(p.id) === id)!
-      const data: any = { layout: page.layout, metaDescription: page.metaDescription, disclaimer: page.disclaimer }
+      const data: any = { layout: page.layout, metaDescription: page.metaDescription, disclaimer: page.disclaimer, offer: page.offer }
       for (const c of changes) setAtPath(data, c.path, c.after)
+      // Keep the structured offer amount in step with the offer text; the discount cap reads it.
+      const offerChange = changes.find((c) => c.path.endsWith('offerText'))
+      const amount = offerChange?.after.match(/[£$€]\s?(\d[\d,]*)/)?.[1]
+      if (amount && data.offer) data.offer = { ...data.offer, amount: Number(amount.replace(/,/g, '')) }
       await payload.update({ collection: 'pages', id, data, draft: true })
       await logActivity(payload, { task: 'edit-everywhere', page: id, inputSummary: body.instruction, output: changes, accepted: true, userId: user?.id })
     }

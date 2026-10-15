@@ -37,6 +37,12 @@ export default function PublishPanel() {
   async function publish() {
     setBusy(true); setNote(null)
     const r: Outcome = await post('/api/dealer/publish', { id, startsAt: when === 'later' && startsAt ? new Date(startsAt).toISOString() : undefined })
+    if (r.result === 'published' || r.result === 'scheduled') {
+      // Reload so the status fields show the new state; the panel resumes with the result.
+      try { sessionStorage.setItem(KEY, JSON.stringify({ id, out: r, note: null })) } catch {}
+      window.location.reload()
+      return
+    }
     setOut(r); setBusy(false)
   }
   async function fix(f: Finding) {

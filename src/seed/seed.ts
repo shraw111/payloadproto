@@ -71,6 +71,7 @@ async function seed() {
   await mk('riverside', 'Riverside Nissan', weekend, { amount: 1000, endsAt: ahead }, { reviewStatus: 'approved', gate: { result: 'published', at: ago(2) }, _status: 'published' })
   await mk('riverside', 'Riverside Nissan', simple, { amount: 3000, endsAt: ahead }, { reviewStatus: 'needs-hq', gate: { result: 'sent-to-hq', reason: 'A discount of £3,000 is above the £2,000 limit for dealers. HQ will review it.', at: ago(0) }, _status: 'draft' })
   await mk('hillcrest', 'Hillcrest Nissan', weekend, { amount: 750, endsAt: ago(4) }, { reviewStatus: 'approved', gate: { result: 'published', at: ago(9) }, _status: 'published' })
+  await mk('hillcrest', 'Hillcrest Nissan', weekend, { amount: 500, endsAt: ahead, extra: 'Nissan Ariya from just £199 a month with 0% finance.' }, { reviewStatus: 'needs-hq', gate: { result: 'sent-to-hq', reason: 'Finance wording (“a month”) needs HQ review. Dealers cannot publish finance offers alone.', at: ago(0) }, _status: 'draft' })
   await mk('hillcrest', 'Hillcrest Nissan', simple, { amount: 500, endsAt: ahead }, { reviewStatus: 'draft', gate: { result: 'blocked', reason: '"Best price in town" is not an approved claim. Comparisons and price superlatives are not allowed.', at: ago(0) }, _status: 'draft' })
 
   const northgateLeads = await payload.count({ collection: 'leads', where: { dealer: { equals: dealerId.northgate } } })
