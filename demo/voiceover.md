@@ -1,40 +1,32 @@
-# Voice-over script
+# Voice-over script (dealer one-click publish)
 
-One story, three people: Priya (developer), Sam (marketing), Alex (compliance). Scene 0 (title card) has no voice-over. The video's synthetic track is read from exactly this text; replace it with your own narration if you prefer.
+One story: HQ sets the rules, Sam (a dealer) publishes offers, HQ looks only at exceptions. Scene 0 (title card) has no voice-over. The synthetic track is read from exactly this text; replace it with your own narration if you prefer.
 
-## Scene 1: Upload the design
+## Scene 1: HQ sets the rules
 
-Meet Priya, a developer on the Ariya web team. The designer has just finished the landing page in Figma. Rather than model the content by hand, Priya attaches the file and tells the studio what they are building.
+Nissan's brand team sets the rules once. The approved claims. The largest discount a dealer can offer alone, which is two thousand pounds. And the standard small print. Dealers can see the rules, but they cannot change them.
 
-## Scene 2: Review the model
+## Scene 2: The dealer's start screen
 
-The AI proposes a content model: page sections, fields, and a claims library. It spotted two testimonial blocks that look like one, and flagged them. The AI proposes, a person decides. So Priya gives one instruction, and the two blocks merge into a single section with a layout option.
+Meet Sam, at Northgate Nissan. Sam does not see a complicated CMS. Just one question: what is your offer? Or, start from a campaign that head office has already prepared.
 
-## Scene 3: Build
+## Scene 3: Change the offer on all pages
 
-Priya approves, and the studio generates the files. A quick look at the diff, then Apply, and the admin appears, with the new content types and the sample pages. Days of modelling become a first draft in minutes.
+First, the offer is changing on all of Sam's pages. One instruction, and the AI shows every change as a diff, across all three pages. Sam accepts them, and publishes all three. Each page goes through the same checks, and all three pass.
 
-## Scene 4: Rendered page
+## Scene 4: A new offer: pick, check, publish
 
-And the page renders straight from those blocks, matching the design. Content and design stay in step.
+Now a new idea. Sam types it in plain words: a weekend offer, a thousand pounds off the Ariya, and a line about range. The AI suggests three page designs from head office's approved templates, already filled in. Sam picks one. Then Publish. Pre-flight stops it. The line that the Ariya goes further than any other electric SUV is a comparison nobody has approved. One click swaps in the approved range claim, with its disclaimer. Publish again, and it is live.
 
-## Scene 5: Brief to draft
+## Scene 5: The live page and a lead
 
-Now it is summer. Sam, in marketing, has a campaign brief in a Word document, with a new offer. No copying text into fields. Sam uploads the brief, and a draft page appears, built only from the approved page sections, with a live preview. It is a draft. Nothing is published.
+The page is live at the dealer's own address, with a countdown to Sunday and an enquiry form. A customer asks for a call back, with their consent, and the lead goes straight to Northgate. On Sunday night, the page switches itself off.
 
-## Scene 6: Edit everywhere
+## Scene 6: HQ sees only exceptions
 
-The new offer replaces the spring one, and the spring offer is on every page. Sam gives one instruction: change the offer to two thousand five hundred pounds. The AI finds every place it appears, across all three pages, and shows each change as a diff. Sam accepts what is right. Most CMS work is edits, not new pages.
+Head office did not read any of that. They only see the exceptions. Riverside wants three thousand pounds off, which is above the limit. Hillcrest has finance wording, which dealers cannot publish alone. Head office approves one, and sends the other back. Everything else just published.
 
-## Scene 7: Pre-flight
+## Scene 7: Close
 
-Before sending the page for review, Sam runs pre-flight. It checks the draft against the approved claims and the brand rules. And it catches a sentence from the brief: the Ariya goes further than any other electric SUV. Nobody has approved that comparison. One click swaps in the approved range wording, with its disclaimer. Compliance problems are caught before review.
-
-## Scene 8: Approve
-
-Alex, in compliance, opens the review queue. Instead of rereading the whole page, Alex sees a plain summary of what changed, a clean pre-flight report, and an audit trail of every AI action. Alex approves, and only now does the page go live. Faster review, with a full audit trail.
-
-## Scene 9: Other inputs and close
-
-That started from a Figma file. The studio also starts from screenshots of a design, or from a sentence, like this clinic website. This is a prototype on one demo design, with illustrative content. The next step is to try it on one of your own files.
+Dealers move fast. Head office keeps control. The checks run in the middle. This is a prototype with illustrative content. The next step is to try it with a handful of real dealers.
 

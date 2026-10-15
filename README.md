@@ -24,6 +24,28 @@ npm run dev:after           # :3001
 
 **Run `npm run reset` only with both dev servers stopped**, or SQLite reports a read-only database.
 
+## The use case: dealers publish offers in one click
+
+HQ sets the rules once (approved claims, a £2,000 dealer discount limit, standard terms). A dealer says their offer in plain words, picks one of three
+template previews, and clicks **Publish**. Pre-flight is the gate: clean pages go live on the dealer's own address, a critical finding blocks the click,
+and an over-limit discount or finance wording goes to HQ. HQ only looks at exceptions. Offers end themselves.
+
+Logins (password `demo1234`): `demo@studio.test` (HQ), `dealer@studio.test` (Northgate Nissan).
+
+| Piece | Where |
+| --- | --- |
+| Dealer start screen: sentence → 3 template previews → fill gaps; HQ campaign kit | `src/admin/DealerStart.tsx`, `src/lib/dealerSuggest.ts`, `src/lib/templates.ts` |
+| One-click publish, gated by pre-flight | `src/admin/PublishPanel.tsx`, `src/app/api/dealer/publish`, `src/lib/gate.ts` |
+| Offer rules: end date, £ cap, finance → HQ, standard terms | `src/lib/preflightRules.ts` (`runOfferRules`) |
+| HQ exceptions (approve / send back) | `src/admin/ReviewQueue.tsx`, `src/app/api/ai/approve` |
+| Dealer isolation (a dealer only sees and edits their own pages) | `src/lib/access.ts`, `src/collections/Pages.ts` |
+| Public offer pages with countdown and enquiry form | `src/app/(frontend)/[dealer]/[slug]`, `src/components/blocks` |
+| Offers end themselves | page checks its dates on every request; `POST /api/jobs/expire` takes it offline (run on a schedule) |
+| Leads (with consent) | `src/app/api/lead`, `leads` collection |
+
+The prototype measures three real numbers: time from creating a page to live, how many pages needed HQ, and enquiries per dealer.
+Not in the prototype: CRM/DMS integration, stock and price feeds, ad platforms, SSO, a claims-library editor beyond Payload's own admin.
+
 ## Scenes ↔ code
 | Scene | Where |
 | --- | --- |
