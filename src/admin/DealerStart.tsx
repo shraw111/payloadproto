@@ -170,7 +170,7 @@ export default function DealerStart() {
       {!res && kits.length > 0 && (
         <div style={{ marginBottom: 16 }}>
           <div style={eyebrow}>Or start from an HQ campaign</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 16, marginTop: 10 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 440px))', gap: 16, marginTop: 10 }}>
             {kits.map((k) => (
               <div key={k.id} style={{ ...card, padding: 14 }}>
                 <Preview src={`/preview/${k.id}?dealer=${dealer?.slug ?? ''}`} />
