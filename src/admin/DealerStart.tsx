@@ -29,7 +29,7 @@ function Preview({ src }: { src: string }) {
     return () => ro.disconnect()
   }, [])
   return (
-    <div ref={ref} style={{ width: '100%', height: 300, overflow: 'hidden', border: '1px solid var(--theme-elevation-150)', borderRadius: 6, background: '#fff' }}>
+    <div ref={ref} style={{ width: '100%', height: 300, overflow: 'hidden', border: '1px solid var(--theme-elevation-150)', borderRadius: 2, background: '#fff' }}>
       <iframe src={src} title="Template preview" style={{ width: 1280, height: 300 / scale, border: 0, transform: `scale(${scale})`, transformOrigin: '0 0', pointerEvents: 'none' }} />
     </div>
   )
@@ -119,7 +119,7 @@ export default function DealerStart() {
           <div style={eyebrow}>Pick a design</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 16, marginTop: 10 }}>
             {res.suggestions.map((s, i) => (
-              <div key={s.templateId} style={{ ...card, borderTop: i === 0 ? `3px solid ${BRAND}` : undefined, padding: 14 }}>
+              <div key={s.templateId} style={{ ...card, borderTop: i === 0 ? '2px solid var(--theme-text)' : undefined, padding: 14 }}>
                 <Preview src={`/preview/${s.templateId}?${qs}`} />
                 <h3 style={{ margin: '12px 0 2px' }}>{s.name}{i === 0 && <span style={{ ...eyebrow, marginLeft: 8 }}>Best fit</span>}</h3>
                 <p style={{ margin: '0 0 4px', opacity: 0.8 }}>{s.reason}</p>

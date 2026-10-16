@@ -20,7 +20,7 @@ export default function ReviewItem({ id, title, dealer, result, reason }: { id: 
   }
 
   return (
-    <div style={{ ...card, marginBottom: 12, borderTop: `3px solid ${result === 'blocked' ? '#999' : BRAND}` }}>
+    <div style={{ ...card, marginBottom: 12, borderTop: `2px solid ${result === 'blocked' ? BRAND : 'var(--theme-text)'}` }}>
       <div style={eyebrow}>{result === 'blocked' ? 'Blocked · with the dealer' : 'Waiting for HQ'}</div>
       <h3 style={{ margin: '6px 0 2px' }}>{title} <small style={{ opacity: 0.6 }}>· {dealer}</small></h3>
       <p style={{ margin: '0 0 10px' }}>{reason}</p>

@@ -36,7 +36,7 @@ export const blockComponents: Record<string, (p: any, ctx?: { page?: any }) => R
   productHighlight: (b) => (
     <section className="section product">
       <div className="wrap">
-        <div className="eyebrow">Product</div>
+        <div className="eyebrow">Details</div>
         <h2 className="display" style={{ marginTop: 12 }}>{b.productName}</h2>
         <p>{b.body}</p>
       </div>

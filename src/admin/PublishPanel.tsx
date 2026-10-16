@@ -60,7 +60,7 @@ export default function PublishPanel() {
 
   const done = out?.result === 'published' || out?.result === 'scheduled'
   return (
-    <div style={{ border: '1px solid var(--theme-elevation-150)', borderTop: `3px solid ${BRAND}`, borderRadius: 6, padding: 14 }}>
+    <div style={{ border: '1px solid var(--theme-elevation-150)', borderTop: '2px solid var(--theme-text)', borderRadius: 2, padding: 14 }}>
       <div style={eyebrow}>Publish</div>
       {!done && (
         <>

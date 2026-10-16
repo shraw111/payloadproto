@@ -11,7 +11,7 @@ export default function HqSummary({ showLink = true }: { showLink?: boolean }) {
   useEffect(() => { fetch('/api/hq/summary').then((r) => r.json()).then(setS).catch(() => {}) }, [])
   const tile = (n: number | string, label: string, hot = false) => (
     <div key={label} style={{ flex: 1, minWidth: 120 }}>
-      <div style={{ font: '800 40px/1 var(--font-body, system-ui)', color: hot && Number(n) > 0 ? BRAND : 'inherit' }}>{n}</div>
+      <div style={{ font: '300 44px/1 var(--font-body, system-ui)', letterSpacing: '-.03em', color: hot && Number(n) > 0 ? BRAND : 'inherit' }}>{n}</div>
       <div style={{ opacity: 0.75 }}>{label}</div>
     </div>
   )
