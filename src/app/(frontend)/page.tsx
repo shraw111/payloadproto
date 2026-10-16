@@ -37,13 +37,13 @@ export default async function Home() {
     <div className="fd">
       <div className="fd-wrap">
         <header className="fd-bar">
-          <a className="fd-mark" href="/"><i />Dealer page studio</a>
+          <a className="fd-mark" href="/">Dealer page studio</a>
           <a className="fd-login" href="/admin">Log in</a>
         </header>
 
         <section className="fd-hero">
           <div>
-            <h1>One click to publish. HQ sees <em>only what’s wrong.</em></h1>
+            <h1>Publish in one click.<br /><em>HQ reviews the exceptions.</em></h1>
             <p className="fd-lede">A dealer says what they want to publish. The page is built, checked against the brand rules, and goes live. Only exceptions reach HQ.</p>
             <a className="fd-cta" href="/admin">Open the CMS</a>
           </div>
@@ -52,22 +52,21 @@ export default async function Home() {
 
         {c && (
           <section className="fd-states" aria-label="Pages right now">
-            <div className="fd-state" data-k="live"><b>{c.live}</b><span>Live</span><small>Published, nobody needed</small></div>
-            <div className="fd-state" data-k="hq"><b>{c.hq}</b><span>With HQ</span><small>Waiting for a decision</small></div>
-            <div className="fd-state" data-k="blocked"><b>{c.blocked}</b><span>Blocked</span><small>Dealer fixes and retries</small></div>
-            <div className="fd-state"><b>{c.expired}</b><span>Expired</span><small>Taken down on the end date</small></div>
+            <div className="fd-state" data-k="live"><b>{c.live}</b><span>Live</span><small>Published without review</small></div>
+            <div className="fd-state" data-k="hq"><b>{c.hq}</b><span>With HQ</span><small>Awaiting a decision</small></div>
+            <div className="fd-state" data-k="blocked"><b>{c.blocked}</b><span>Blocked</span><small>Returned to the dealer</small></div>
+            <div className="fd-state"><b>{c.expired}</b><span>Expired</span><small>Removed on the end date</small></div>
           </section>
         )}
 
         <section className="fd-sec">
-          <h2>Three pages, already live</h2>
-          <p className="fd-sub">Each was made from one sentence. Content is illustrative.</p>
+          <div><h2>Published examples</h2>
+          <p className="fd-sub">Each was created from a single sentence. Content is illustrative.</p></div>
           <div className="fd-pages">
             {pages.map((p) => (
               <a key={p.href} className="fd-page" href={p.href}>
                 <small>{p.kind}</small>
-                <strong>{p.title}</strong>
-                <span>{p.note}</span>
+                <div><strong>{p.title}</strong><span>{p.note}</span></div>
               </a>
             ))}
           </div>

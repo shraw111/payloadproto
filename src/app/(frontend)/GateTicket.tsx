@@ -7,7 +7,7 @@ const cases: { tab: string; text: string; outcome: Outcome; headline: string; ch
     tab: 'Weekend sale',
     text: 'Weekend sale: £1,500 off every Ariya. Ends Sunday 6pm.',
     outcome: 'cleared',
-    headline: 'Published. Nobody had to look.',
+    headline: 'Published without review.',
     checks: [
       { ok: true, line: 'Only approved claims used' },
       { ok: true, line: '£1,500 is under the £2,000 dealer limit' },
@@ -19,7 +19,7 @@ const cases: { tab: string; text: string; outcome: Outcome; headline: string; ch
     tab: 'Finance deal',
     text: '£2,500 off plus 0% finance on every Ariya this month.',
     outcome: 'held',
-    headline: 'Sent to HQ. The dealer keeps working.',
+    headline: 'Sent to HQ for a decision.',
     checks: [
       { ok: false, line: '£2,500 is over the £2,000 dealer limit' },
       { ok: false, line: 'Finance wording needs HQ review' },
@@ -31,7 +31,7 @@ const cases: { tab: string; text: string; outcome: Outcome; headline: string; ch
     tab: 'Big claim',
     text: 'The Ariya goes further than any other electric SUV.',
     outcome: 'blocked',
-    headline: 'Blocked before it went live.',
+    headline: 'Stopped before it went live.',
     checks: [
       { ok: false, line: 'Comparisons are not approved claims' },
       { ok: true, line: 'No banned words' },
@@ -52,17 +52,16 @@ export default function GateTicket() {
         ))}
       </div>
       <div className="fd-ticket__body" key={i}>
-        <div className="fd-ticket__label">Dealer wrote</div>
+        <div className="fd-ticket__label">Submitted by dealer</div>
         <p className="fd-ticket__text">{c.text}</p>
-        <div className="fd-ticket__label">Pre-flight</div>
+        <div className="fd-ticket__label">Pre-flight checks</div>
         <ul className="fd-checks">
           {c.checks.map((k) => (
             <li key={k.line} data-ok={k.ok}><span aria-hidden>{k.ok ? '✓' : '✕'}</span>{k.line}</li>
           ))}
         </ul>
         {c.fix && <p className="fd-fix">{c.fix}</p>}
-        <div className="fd-stamp" aria-live="polite"><span>{stamp[c.outcome]}</span></div>
-        <p className="fd-ticket__headline">{c.headline}</p>
+        <div className="fd-verdict" aria-live="polite"><i aria-hidden /><b>{stamp[c.outcome]}</b><span>{c.headline}</span></div>
       </div>
       <p className="fd-ticket__note">Example pages. The real gate runs these rules on every publish.</p>
     </div>
